@@ -16,23 +16,23 @@
   specific language governing permissions and limitations
   under the License.
   -->
-<template>
+  <template>
     <div class="row d-flex align-items-center mb-3 p-3">
-        <JobSummaryCard v-for="card_data in jobSummary" :key="card_data.status" :card_data="card_data">
-        </JobSummaryCard>
+      <JobSummaryCard v-for="card_data in jobSummary" :key="card_data.status" :card_data="card_data">
+      </JobSummaryCard>
     </div>
-</template>
-<script>
-import JobSummaryCard from '@/components/JobSummaryCard.vue'
-
-export default {
-  name: 'JobSummaryContainer',
-  props: {
-    jobSummary: Array
-  },
-  components: {
-    JobSummaryCard
+  </template>
+  <script>
+  import JobSummaryCard from '@/components/JobSummaryCard.vue'
+  
+  export default {
+    name: 'JobSummaryContainer',
+    props: {
+      jobSummary: Array
+    },
+    components: {
+      JobSummaryCard
+    }
   }
-}
-
-</script>  
+  
+  </script>  

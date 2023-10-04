@@ -16,31 +16,18 @@
   specific language governing permissions and limitations
   under the License.
   -->
-<template>
+  <template>
     <div class="modal fade" :id="'modal-' + tuple.hackit_tuple.metadata.tuple_id" aria-hidden="true"
       aria-labelledby="modalTitle" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modalTitle">Tuple Details - {{ tuple.hackit_tuple.metadata.tuple_id }}</h5>
+            <h5 class="modal-title" id="modalTitle">Tuple Details </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <table class="table">
               <tbody>
-                <tr>
-                  <th style="border: none;">Job ID</th>
-                  <td style="border: none;">
-                    <input id="job_id" :value="tuple.job_id" disabled readonly class="form-control" />
-                  </td>
-                </tr>
-                <tr>
-                  <th style="border: none;">Timestamp</th>
-                  <td style="border: none;">
-                    <input id="timestamp" :value="formatTimestamp(tuple.hackit_tuple.metadata.timestamp)" disabled readonly
-                      class="form-control" />
-                  </td>
-                </tr>
                 <tr>
                   <th style="border: none;">Tuple ID</th>
                   <td style="border: none;">
@@ -49,11 +36,6 @@
                   </td>
                 </tr>
                 <tr>
-                  <th style="border: none;">Original Tuple</th>
-                  <td style="border: none;">
-                    <input id="tuple_id" :value="JSON.stringify(tuple.hackit_tuple.wayang_tuple)" disabled readonly
-                      class="form-control" />
-                  </td>
                 </tr>
                 <tr>
                   <th style="border: none;">Wayang Tuple</th>
@@ -61,7 +43,6 @@
                     <table class="table" :class="{ 'table-warning': debug }">
                       <thead>
                         <tr>
-                          <th>Key</th>
                           <th>Value</th>
                         </tr>
                       </thead>
@@ -77,23 +58,10 @@
                     </table>
                   </td>
                 </tr>
-  
-                <tr>
-                  <th>TAGS</th>
-                  <td>
-                    <div>
-                      <span v-for="tag in tuple.hackit_tuple.metadata.tags" :key="tag"
-                        class="badge bg-secondary text-white me-1">{{ tag }}</span>
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </div>
-  
-  
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" type="button"
               class="btn btn-primary">Done</button>
           </div>
@@ -120,4 +88,4 @@
     }
   };
   </script>
-  
+    

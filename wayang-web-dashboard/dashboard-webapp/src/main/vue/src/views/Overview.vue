@@ -16,7 +16,7 @@
   specific language governing permissions and limitations
   under the License.
   -->
-<template>
+  <template>
     <div class="overview">
       <div class="container">
         <div class="row">
@@ -28,37 +28,29 @@
       </div>
     </div>
   </template>
+    
+  <script>
   
-  
-  
-  
-<script>
-import OverviewCard from '../components/OverviewCard.vue';
-
-export default {
+  export default {
     components: {
-        OverviewCard,
     },
     data() {
-        return {
-            data: [],
-        };
+      return {
+        data: [],
+      };
     },
     methods: {
     },
     async created() {
-        try {
-            const response = await fetch('http://localhost:3000/overview');
-            this.data = await response.json();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+      try {
+        const response = await fetch('http://localhost:3000/overview');
+        this.data = await response.json();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     },
-};
-</script>
-  
-<style scoped>
-
-/* Add any other desired styles */
-</style>
-  
+  };
+  </script>
+    
+  <style scoped></style>
+    

@@ -17,23 +17,29 @@
   under the License.
   -->
   <template>
-    <div class="hackit-controls">
-        <button class="btn rounded-0" :class="{ 'btn-primary': isRunning }" :disabled="!isRunning" @click="onPlay">
-            Play
-        </button>
-        <button class="btn rounded-0" :class="{ 'btn-primary': isPaused }" :disabled="!isPaused" @click="onPause">
+    <div class="hackit-controls" style="display: flex; align-items: center;">
+        <button class="btn btn-secondary" style="margin-right: 10px; padding: 5px 20px;" :class="{ 'btn-dark': isPaused }"
+            :disabled="!isPaused" @click="onPause">
             Pause
         </button>
-        <button class="btn rounded-0" :class="{ 'btn-primary': isVirtualPaused }" :disabled="!isVirtualPaused"
-            @click="onVirtualPause">
+        <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px;"
+            :class="{ 'btn-dark': isVirtualPaused }" :disabled="!isVirtualPaused" @click="onVirtualPause">
             Virtual Pause
         </button>
-        <button class="btn rounded-0" :class="{ 'btn-primary': isNextTupleActive }" :disabled="!isNextTupleActive"
-            @click="onNextTuple">
+        <button class="btn btn-secondary" style="margin-right: 10px; padding: 5px 20px;" :class="{ 'btn-dark': isRunning }"
+            :disabled="!isRunning" @click="onPlay">
+            Resume
+        </button>
+        <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px;"
+            :class="{ 'btn-dark': isNextDebugTupleActive }" :disabled="!isNextDebugTupleActive" @click="onNextDebugTuple">
+            Next Debug Tuple
+        </button>
+        <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px;"
+            :class="{ 'btn-dark': isNextTupleActive }" :disabled="!isNextTupleActive" @click="onNextTuple">
             Next Tuple
         </button>
-        <button class="btn rounded-0" :class="{ 'btn-primary': isNextOperatorActive }" :disabled="!isNextOperatorActive"
-            @click="onNextOperator">
+        <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px;"
+            :class="{ 'btn-dark': isNextOperatorActive }" :disabled="!isNextOperatorActive" @click="onNextOperator">
             Next Operator
         </button>
     </div>
@@ -49,6 +55,7 @@ export default {
             isVirtualPaused: true,
             isNextTupleActive: false,
             isNextOperatorActive: false,
+            isNextDebugTupleActive: false,
         };
     },
     methods: {
@@ -60,6 +67,7 @@ export default {
                 this.isVirtualPaused = true
                 this.isNextOperatorActive = false
                 this.isNextTupleActive = false
+                this.isNextDebugTupleActive = false
             }
         },
         onPause() {
@@ -67,7 +75,7 @@ export default {
                 this.$emit("pause", "isPaused");
                 this.isRunning = true
                 this.isPaused = false
-                this.isVirtualPaused = false
+                this.isVirtualPaused = true
                 this.isNextOperatorActive = true
                 this.isNextTupleActive = true
             }
@@ -77,8 +85,17 @@ export default {
                 this.$emit("virtual-pause", "isVirtualPaused");
                 this.isRunning = true
                 this.isVirtualPaused = false
+                this.isPaused = false
                 this.isNextOperatorActive = true
-                this.isNextTupleActive = true
+                this.isNextTupleActive = false
+                this.isNextDebugTupleActive = true
+                this.isNextOperatorActive = false
+            }
+        },
+        onNextDebugTuple() {
+            if (this.isNextDebugTupleActive) {
+                this.$emit("next-debug-tuple", "isNextDebugTupleActive");
+
             }
         },
         onNextTuple() {
