@@ -16,7 +16,7 @@
   specific language governing permissions and limitations
   under the License.
   -->
-  <template>
+<template>
     <div class="hackit-controls" style="display: flex; align-items: center;">
         <button class="btn btn-secondary" style="margin-right: 10px; padding: 5px 20px;" :class="{ 'btn-dark': isPaused }"
             :disabled="!isPaused" @click="onPause">
@@ -39,7 +39,7 @@
             Next Tuple
         </button>
         <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px;"
-            :class="{ 'btn-dark': isNextOperatorActive }" :disabled="!isNextOperatorActive" @click="onNextOperator">
+            :class="{ 'btn-dark': isNextOperatorActive }" :disabled="!isNextOperatorActive" @click="nextOperatorClicked">
             Next Operator
         </button>
     </div>
@@ -103,9 +103,10 @@ export default {
                 this.$emit("next-tuple", "isNextTupleActive");
             }
         },
-        onNextOperator() {
+        nextOperatorClickedextOperator() {
             if (this.isNextOperatorActive) {
-                this.$emit("next-operator", "isNextOperatorActive");
+                this.$emit("next-operator-clicked", "isNextOperatorActive");
+                eventBus$emit("next-operator-clicked", "isNextOperatorActive");
             }
         },
     },

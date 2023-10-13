@@ -16,39 +16,39 @@
   specific language governing permissions and limitations
   under the License.
   -->
-  <template id="app">
-    <div class="container-fluid bg-dark">
-      <div class="row align-items-center justify-content-center" style="min-height: 100px;">
-        <div class="col-auto">
-          <router-link to="/" class="navbar-brand d-flex justify-content-center">
-            <img src="/logo.png" alt="Logo" class="logo" style="height: 400px;" />
-          </router-link>
-        </div>
+<template id="app">
+  <div class="container-fluid bg-dark">
+    <div class="row align-items-center justify-content-center" style="min-height: 100px;">
+      <div class="col-auto">
+        <router-link to="/" class="navbar-brand d-flex justify-content-center">
+          <img src="/logo.png" alt="Logo" class="logo" style="height: 400px;" />
+        </router-link>
       </div>
     </div>
-    <div class="col-9">
-      <router-view />
+  </div>
+  <div class="col-9">
+    <router-view />
+  </div>
+  <footer class="text-center py-4 mt-3">
+    <div class="container">
     </div>
-    <footer class="text-center py-4 mt-3">
-      <div class="container">
-      </div>
-    </footer>
-  </template>
-  <script>
-  
-  
-  export default {
-    name: 'App',
-    computed: {
-      activeRoute() {
-        return this.$route.name
-      }
+  </footer>
+</template>
+<script>
+
+
+export default {
+  name: 'App',
+  computed: {
+    activeRoute() {
+      return this.$route.name
     }
   }
-  </script>
-  <style scoped>
-  .logo {
-    max-height: 50px;
-  }
-  </style>
+}
+</script>
+<style scoped>
+.logo {
+  max-height: 50px;
+}
+</style>
     

@@ -17,8 +17,8 @@
   under the License.
   -->
   <template>
-    <div class="modal fade" :id="'modal-' + tuple.hackit_tuple.metadata.tuple_id" aria-hidden="true"
-      aria-labelledby="modalTitle" tabindex="-1">
+     <div v-if="tuple" class="modal fade" :id="'modal-' + tuple.hackit_tuple.metadata.tuple_id" aria-hidden="true"
+    aria-labelledby="modalTitle" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">

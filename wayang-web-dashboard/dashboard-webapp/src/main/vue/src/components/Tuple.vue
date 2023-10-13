@@ -34,7 +34,7 @@
   </tr>
 </template>
 <script>
-import TupleInspectModal from "./TupleInspectModal.vue";
+import TupleInspectModal from "@/components/TupleInspectModal.vue";
 
 export default {
   name: "Tuple",
@@ -56,6 +56,9 @@ export default {
   addTag() {
     // Emit an event to add a tag
     this.$emit("add-tag");
+    if (this.debug && !this.isBugTupleAlreadyAdded(this.tuple)) {
+        useTupleStore.addDebugTuple(this.tuple); // Add the tuple to debugTuples in the store
+      }
   },
   selectTag(tag) {
     // Handle selecting a tag

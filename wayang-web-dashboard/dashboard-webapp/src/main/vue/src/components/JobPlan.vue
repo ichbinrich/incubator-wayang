@@ -18,6 +18,7 @@
   -->
 <template>
   <h2 class="my-3"></h2>
+  <!-- Graph Display -->
   <div id="cy"></div>
   <!--Wayang Programming Languages-->
   <div class="container-fluid mt-3 mb-3">
@@ -58,7 +59,7 @@
   <div class="d-flex justify-content-end mt-2">
     <button type="button" class="btn btn-dark" style="margin-right: 10px;padding: 5px 10px;"
       @click="saveCode">Save</button>
-    <button type="button" class="btn btn-dark" @click="executeCode">
+    <button type="button" class="btn btn-primary" @click="executeCode">
       <i class="fa fa-play"></i> Run
     </button>
   </div>
@@ -89,6 +90,12 @@ import "codemirror/theme/blackboard.css";
 import codemirror from 'codemirror';
 import "codemirror/mode/clike/clike.js";
 import "codemirror/mode/sql/sql.js";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/default.css';
+import 'highlight.js/lib/languages/java';
+import 'highlight.js/lib/languages/sql';
+import 'highlight.js/lib/languages/scala';
+
 
 
 cytoscape.use(contextMenus);
@@ -114,6 +121,7 @@ export default {
       githubRepoURL: '',
       submissionMessage: '',
       isSubmitting: false,
+      currentLanguage: 'java',
       cmOptions: {
         mode: "text/x-java",
         theme: "default",
@@ -123,6 +131,8 @@ export default {
   },
 
   mounted() {
+
+
     const colors = ['blue', 'green', 'red'];
 
     const elements = {
@@ -178,6 +188,7 @@ export default {
       autoungrabify: true,
     });
 
+
     const selectNode = (task_id) => {
       const node = cy.nodes(`[task_id="${task_id}"]`);
       if (node.length > 0) {
@@ -224,6 +235,8 @@ export default {
         }
       ]
     });
+    // Call hljs.highlightAll() after everything is initialized
+    hljs.highlightAll();
   },
 
   methods: {
@@ -244,17 +257,20 @@ export default {
         this.codeContent = `public void postag() {\n${placeholderCode}\n}`;
       }
     },
-
     onModeChange() {
       this.cmOptions.mode = this.mode;
-      if (this.mode === "text/x-java") {
-        this.code = `public void methodName() {\n  // Java code here\n}`;
-      } else if (this.mode === "text/x-sql") {
-        this.code = `SELECT * FROM tableName;`;
-      } else if (this.mode === "text/x-scala") {
-        this.code = `def sparkFunction(): Unit = {\n  // Spark Scala code here\n}`;
+      if (this.mode === 'text/x-java') {
+        this.currentLanguage = 'java';
+        this.codeContent = `public void methodName() {\n  // Java code here\n}`;
+      } else if (this.mode === 'text/x-sql') {
+        this.currentLanguage = 'sql';
+        this.codeContent = `SELECT * FROM tableName;`;
+      } else if (this.mode === 'text/x-scala') {
+        this.currentLanguage = 'scala';
+        this.codeContent = `def sparkFunction(): Unit = {\n  // Spark Scala code here\n}`;
       }
     },
+
 
     executeCode() {
       console.log('Running code...');
@@ -274,6 +290,7 @@ export default {
     this.isSubmitting = true;
     try {
       let response = await this.$axios.post('/your-api-endpoint', { url: this.githubRepoURL });
+
       if (response.data.success) {
         this.submissionMessage = "URL successfully submitted!";
       } else {
