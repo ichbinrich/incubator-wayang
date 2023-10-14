@@ -16,41 +16,37 @@
   specific language governing permissions and limitations
   under the License.
   -->
-  <template>
-    <div class="overview">
-      <div class="container">
-        <div class="row">
-          <overview-card v-for="(item, index) in data" :key="index">
-            <template #title>{{ item.title }}</template>
-            <template #metric>{{ item.body }}</template>
-          </overview-card>
-        </div>
+<template>
+  <div class="overview">
+    <div class="container">
+      <div class="row">
+        <overview-card v-for="(item, index) in data" :key="index">
+          <template #title>{{ item.title }}</template>
+          <template #metric>{{ item.body }}</template>
+        </overview-card>
       </div>
     </div>
-  </template>
-    
-  <script>
-  
-  export default {
-    components: {
-    },
-    data() {
-      return {
-        data: [],
-      };
-    },
-    methods: {
-    },
-    async created() {
-      try {
-        const response = await fetch('http://localhost:3000/overview');
-        this.data = await response.json();
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    },
-  };
-  </script>
-    
-  <style scoped></style>
-    
+  </div>
+</template>
+
+<script>
+export default {
+  components: {},
+  data() {
+    return {
+      data: [],
+    };
+  },
+  methods: {},
+  async created() {
+    try {
+      const response = await fetch("http://localhost:3000/overview");
+      this.data = await response.json();
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  },
+};
+</script>
+
+<style scoped></style>

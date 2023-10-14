@@ -18,10 +18,13 @@
   -->
 <template id="app">
   <div class="container-fluid bg-dark">
-    <div class="row align-items-center justify-content-center" style="min-height: 100px;">
+    <div
+      class="row align-items-center justify-content-center"
+      style="min-height: 100px"
+    >
       <div class="col-auto">
         <router-link to="/" class="navbar-brand d-flex justify-content-center">
-          <img src="/logo.png" alt="Logo" class="logo" style="height: 400px;" />
+          <img src="/logo.png" alt="Logo" class="logo" style="height: 400px" />
         </router-link>
       </div>
     </div>
@@ -30,25 +33,21 @@
     <router-view />
   </div>
   <footer class="text-center py-4 mt-3">
-    <div class="container">
-    </div>
+    <div class="container"></div>
   </footer>
 </template>
 <script>
-
-
 export default {
-  name: 'App',
+  name: "App",
   computed: {
     activeRoute() {
-      return this.$route.name
-    }
-  }
-}
+      return this.$route.name;
+    },
+  },
+};
 </script>
 <style scoped>
 .logo {
   max-height: 50px;
 }
 </style>
-    

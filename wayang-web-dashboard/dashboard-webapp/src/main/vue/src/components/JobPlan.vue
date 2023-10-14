@@ -25,15 +25,24 @@
     <div class="row">
       <div class="col-md-8 d-flex align-items-center">
         <div class="d-flex align-items-center mb-1">
-          <span class="bg-danger rounded" style="width: 20px; height: 20px; margin-right: 10px;"></span>
+          <span
+            class="bg-danger rounded"
+            style="width: 20px; height: 20px; margin-right: 10px"
+          ></span>
           Java
         </div>
         <div class="d-flex align-items-center mb-1 mx-2">
-          <span class="bg-primary rounded" style="width: 20px; height: 20px; margin-right: 10px;"></span>
+          <span
+            class="bg-primary rounded"
+            style="width: 20px; height: 20px; margin-right: 10px"
+          ></span>
           Spark
         </div>
         <div class="d-flex align-items-center mb-1">
-          <span class="bg-success rounded" style="width: 20px; height: 20px; margin-right: 10px;"></span>
+          <span
+            class="bg-success rounded"
+            style="width: 20px; height: 20px; margin-right: 10px"
+          ></span>
           PostgreSQL
         </div>
       </div>
@@ -42,43 +51,71 @@
   <!--Github repository-->
   <div class="d-flex align-items-center mt-3">
     <h6 class="mb-0 mr-2"></h6>
-    <i class="fab fa-github fa-2x mr-2" style="padding-right:10px;"></i>
-    <input type="url" v-model="githubRepoURL" placeholder="https://github.com/your-repo" class="form-control"
-      style="flex: none; width: 245px; margin-right: 15px;">
-    <button @click="submitRepoURL" :disabled="isSubmitting" class="btn btn-secondary"
-      style="padding: 5px 10px;">Submit</button>
+    <i class="fab fa-github fa-2x mr-2" style="padding-right: 10px"></i>
+    <input
+      type="url"
+      v-model="githubRepoURL"
+      placeholder="https://github.com/your-repo"
+      class="form-control"
+      style="flex: none; width: 245px; margin-right: 15px"
+    />
+    <button
+      @click="submitRepoURL"
+      :disabled="isSubmitting"
+      class="btn btn-secondary"
+      style="padding: 5px 10px"
+    >
+      Submit
+    </button>
   </div>
   <p>{{ submissionMessage }}</p>
   <div class="container">
-    <div class="row">
-    </div>
+    <div class="row"></div>
   </div>
   <!--codemirror IDE-->
-  <Codemirror v-model:value="codeContent" :options="cmOptions" border placeholder="Write your code here..." :height="200"
-    @change="change" />
+  <Codemirror
+    v-model:value="codeContent"
+    :options="cmOptions"
+    border
+    placeholder="Write your code here..."
+    :height="200"
+    @change="change"
+  />
   <div class="d-flex justify-content-end mt-2">
-    <button type="button" class="btn btn-dark" style="margin-right: 10px;padding: 5px 10px;"
-      @click="saveCode">Save</button>
+    <button
+      type="button"
+      class="btn btn-dark"
+      style="margin-right: 10px; padding: 5px 10px"
+      @click="saveCode"
+    >
+      Save
+    </button>
     <button type="button" class="btn btn-primary" @click="executeCode">
       <i class="fa fa-play"></i> Run
     </button>
   </div>
   <!--Tags-->
   <div>
-    <h6> Select Predefined Tags</h6>
+    <h6>Select Predefined Tags</h6>
     <div class="d-flex flex-wrap gap-2">
       <div class="form-check" v-for="(tag, index) in tags" :key="index">
-        <input type="checkbox" class="form-check-input" :id="`tag-${index}`" :value="tag" v-model="selectedTags" />
+        <input
+          type="checkbox"
+          class="form-check-input"
+          :id="`tag-${index}`"
+          :value="tag"
+          v-model="selectedTags"
+        />
         <label class="form-check-label" :for="`tag-${index}`">{{ tag }}</label>
       </div>
     </div>
   </div>
 </template>
-    
+
 <script>
-import cytoscape from 'cytoscape'
-import contextMenus from 'cytoscape-context-menus';
-import 'cytoscape-context-menus/cytoscape-context-menus.css';
+import cytoscape from "cytoscape";
+import contextMenus from "cytoscape-context-menus";
+import "cytoscape-context-menus/cytoscape-context-menus.css";
 import { ref } from "vue";
 import Codemirror from "codemirror-editor-vue3";
 import "codemirror/addon/display/placeholder.js";
@@ -87,41 +124,39 @@ import "codemirror/theme/dracula.css";
 import "codemirror/theme/ambiance.css";
 import "codemirror/theme/eclipse.css";
 import "codemirror/theme/blackboard.css";
-import codemirror from 'codemirror';
+import codemirror from "codemirror";
 import "codemirror/mode/clike/clike.js";
 import "codemirror/mode/sql/sql.js";
-import hljs from 'highlight.js';
-import 'highlight.js/styles/default.css';
-import 'highlight.js/lib/languages/java';
-import 'highlight.js/lib/languages/sql';
-import 'highlight.js/lib/languages/scala';
-
-
+import hljs from "highlight.js";
+import "highlight.js/styles/default.css";
+import "highlight.js/lib/languages/java";
+import "highlight.js/lib/languages/sql";
+import "highlight.js/lib/languages/scala";
 
 cytoscape.use(contextMenus);
 
 export default {
-  name: 'JobPlan',
+  name: "JobPlan",
   components: {
     codemirror,
   },
   props: {
     graph: Object,
     task_id: String,
-    code: String
+    code: String,
   },
   data() {
     return {
       selectedTaskId: null,
       showModal: true,
-      modalTitle: '',
-      codeContent: '',
+      modalTitle: "",
+      codeContent: "",
       tags: ["Alert", "Debug", "Pause", "Skip"],
       selectedTags: [],
-      githubRepoURL: '',
-      submissionMessage: '',
+      githubRepoURL: "",
+      submissionMessage: "",
       isSubmitting: false,
-      currentLanguage: 'java',
+      currentLanguage: "java",
       cmOptions: {
         mode: "text/x-java",
         theme: "default",
@@ -131,53 +166,51 @@ export default {
   },
 
   mounted() {
-
-
-    const colors = ['blue', 'green', 'red'];
+    const colors = ["blue", "green", "red"];
 
     const elements = {
-      nodes: this.graph.nodes.map(node => {
+      nodes: this.graph.nodes.map((node) => {
         const color = colors[Math.floor(Math.random() * colors.length)];
-        return { ...node, style: { 'background-color': color } }
+        return { ...node, style: { "background-color": color } };
       }),
-      edges: this.graph.edges
+      edges: this.graph.edges,
     };
     const cy = cytoscape({
-      container: document.getElementById('cy'),
+      container: document.getElementById("cy"),
       elements: elements,
       style: [
         {
-          selector: 'node',
+          selector: "node",
           style: {
-            'background-color': '#666',
-            'label': 'data(label)',
-            'width': '20px',
-            'height': '20px',
-            'font-size': '10px',
-            'text-valign': 'top',
-            'text-halign': 'center',
-            'text-margin-y': '-10px'
-          }
+            "background-color": "#666",
+            label: "data(label)",
+            width: "20px",
+            height: "20px",
+            "font-size": "10px",
+            "text-valign": "top",
+            "text-halign": "center",
+            "text-margin-y": "-10px",
+          },
         },
         {
-          selector: 'edge',
+          selector: "edge",
           style: {
-            'width': 3,
-            'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
-            'target-arrow-shape': 'triangle'
-          }
+            width: 3,
+            "line-color": "#ccc",
+            "target-arrow-color": "#ccc",
+            "target-arrow-shape": "triangle",
+          },
         },
         {
-          selector: '.selected',
+          selector: ".selected",
           style: {
-            'border-color': 'red',
-            'border-width': '2px'
-          }
-        }
+            "border-color": "red",
+            "border-width": "2px",
+          },
+        },
       ],
       layout: {
-        name: 'grid',
+        name: "grid",
         fit: true,
         padding: 30,
         animate: false,
@@ -188,28 +221,27 @@ export default {
       autoungrabify: true,
     });
 
-
     const selectNode = (task_id) => {
       const node = cy.nodes(`[task_id="${task_id}"]`);
       if (node.length > 0) {
-        node.addClass('selected');
+        node.addClass("selected");
       }
-    }
+    };
 
-    cy.on('tap', 'node', (event) => {
-      if (event.target.hasClass('selected')) {
-        event.target.removeClass('selected');
-        this.$emit('task-selected', null);
+    cy.on("tap", "node", (event) => {
+      if (event.target.hasClass("selected")) {
+        event.target.removeClass("selected");
+        this.$emit("task-selected", null);
       } else {
-        cy.nodes().removeClass('selected')
-        event.target.addClass('selected')
-        this.$emit('task-selected', event.target.data('task_id'))
+        cy.nodes().removeClass("selected");
+        event.target.addClass("selected");
+        this.$emit("task-selected", event.target.data("task_id"));
       }
     });
     // Watch for updates to the 'task_id' prop and apply the 'selected' class to the corresponding node
-    this.$watch('task_id', (newVal, oldVal) => {
-      cy.nodes().removeClass('selected');
-      if (newVal && newVal !== '') {
+    this.$watch("task_id", (newVal, oldVal) => {
+      cy.nodes().removeClass("selected");
+      if (newVal && newVal !== "") {
         selectNode(newVal);
       }
     });
@@ -217,23 +249,23 @@ export default {
     cy.contextMenus({
       menuItems: [
         {
-          id: 'add-pretag',
-          content: 'Add PreTAG',
-          selector: 'node',
+          id: "add-pretag",
+          content: "Add PreTAG",
+          selector: "node",
           onClickFunction: (event) => {
-            this.showCodeEditor('PreTAG');
+            this.showCodeEditor("PreTAG");
           },
-          hasTrailingDivider: true
+          hasTrailingDivider: true,
         },
         {
-          id: 'add-posttag',
-          content: 'Add PostTAG',
-          selector: 'node',
+          id: "add-posttag",
+          content: "Add PostTAG",
+          selector: "node",
           onClickFunction: (event) => {
-            this.showCodeEditor('PostTAG');
-          }
-        }
-      ]
+            this.showCodeEditor("PostTAG");
+          },
+        },
+      ],
     });
     // Call hljs.highlightAll() after everything is initialized
     hljs.highlightAll();
@@ -242,8 +274,8 @@ export default {
   methods: {
     showModalForTask(taskId) {
       this.showModal = true;
-      this.modalTitle = 'Edit Task';
-      this.codeContent = '';
+      this.modalTitle = "Edit Task";
+      this.codeContent = "";
     },
     showCodeEditor(tagType) {
       this.showModal = true;
@@ -251,29 +283,28 @@ export default {
 
       const placeholderCode = ` \n`;
 
-      if (tagType === 'PreTAG') {
+      if (tagType === "PreTAG") {
         this.codeContent = `public void pretag() {\n${placeholderCode}\n}`;
-      } else if (tagType === 'PostTAG') {
+      } else if (tagType === "PostTAG") {
         this.codeContent = `public void postag() {\n${placeholderCode}\n}`;
       }
     },
     onModeChange() {
       this.cmOptions.mode = this.mode;
-      if (this.mode === 'text/x-java') {
-        this.currentLanguage = 'java';
+      if (this.mode === "text/x-java") {
+        this.currentLanguage = "java";
         this.codeContent = `public void methodName() {\n  // Java code here\n}`;
-      } else if (this.mode === 'text/x-sql') {
-        this.currentLanguage = 'sql';
+      } else if (this.mode === "text/x-sql") {
+        this.currentLanguage = "sql";
         this.codeContent = `SELECT * FROM tableName;`;
-      } else if (this.mode === 'text/x-scala') {
-        this.currentLanguage = 'scala';
+      } else if (this.mode === "text/x-scala") {
+        this.currentLanguage = "scala";
         this.codeContent = `def sparkFunction(): Unit = {\n  // Spark Scala code here\n}`;
       }
     },
 
-
     executeCode() {
-      console.log('Running code...');
+      console.log("Running code...");
     },
 
     closeModal() {
@@ -283,13 +314,15 @@ export default {
     saveCode() {
       console.log(this.codeContent);
       this.closeModal();
-    }
+    },
   },
 
   async submitRepoURL() {
     this.isSubmitting = true;
     try {
-      let response = await this.$axios.post('/your-api-endpoint', { url: this.githubRepoURL });
+      let response = await this.$axios.post("/your-api-endpoint", {
+        url: this.githubRepoURL,
+      });
 
       if (response.data.success) {
         this.submissionMessage = "URL successfully submitted!";
@@ -301,11 +334,10 @@ export default {
     } finally {
       this.isSubmitting = false;
     }
-  }
-}
-
+  },
+};
 </script>
-  
+
 <style scoped>
 #cy {
   height: 200px;
@@ -330,4 +362,3 @@ export default {
   /* This will change the color of strings */
 }
 </style>
-  

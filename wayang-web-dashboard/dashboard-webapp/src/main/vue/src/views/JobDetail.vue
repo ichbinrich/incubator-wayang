@@ -22,25 +22,41 @@
       <ul class="navbar-nav ms-auto p-3">
         <!-- Dropdown for Jobs -->
         <li class="nav-item dropdown">
-          <a class="btn btn-outline-secondary dropdown-toggle rounded-0 border-0" href="#" role="button"
-            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" :class="activeRoute === 'JobList'
-              ? 'btn-secondary'
-              : 'btn-outline-secondary'
-              ">
+          <a
+            class="btn btn-outline-secondary dropdown-toggle rounded-0 border-0"
+            href="#"
+            role="button"
+            id="dropdownMenuLink"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            :class="
+              activeRoute === 'JobList'
+                ? 'btn-secondary'
+                : 'btn-outline-secondary'
+            "
+          >
             Jobs
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li>
-              <router-link to="/jobs/wordcount" class="dropdown-item">Wordcount</router-link>
+              <router-link to="/jobs/wordcount" class="dropdown-item"
+                >Wordcount</router-link
+              >
             </li>
             <li>
-              <router-link to="/jobs/join-query" class="dropdown-item">Join Query</router-link>
+              <router-link to="/jobs/join-query" class="dropdown-item"
+                >Join Query</router-link
+              >
             </li>
             <li>
-              <router-link to="/jobs/classification" class="dropdown-item">Classification</router-link>
+              <router-link to="/jobs/classification" class="dropdown-item"
+                >Classification</router-link
+              >
             </li>
             <li>
-              <router-link to="/jobs/clustering" class="dropdown-item">Clustering</router-link>
+              <router-link to="/jobs/clustering" class="dropdown-item"
+                >Clustering</router-link
+              >
             </li>
           </ul>
         </li>
@@ -55,7 +71,12 @@
         <div class="card-header">Job Plan</div>
         <div class="card-body">
           <h6>Right-click on the operator to select custom tags</h6>
-          <JobPlan :graph="job.graph" :task_selected="task_id" v-if="job.graph" @task-selected="handleTaskSelected">
+          <JobPlan
+            :graph="job.graph"
+            :task_selected="task_id"
+            v-if="job.graph"
+            @task-selected="handleTaskSelected"
+          >
           </JobPlan>
           <div class="alert alert-warning" role="alert" v-else>
             No job plan available
@@ -78,20 +99,34 @@
       <div class="card rounded-0 mt-3">
         <div class="card-header">Tuples</div>
         <div class="card-body tuples-card">
-          <HackitDebugger :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
+          <HackitDebugger
+            :hackitAction="hackitAction"
+            :jobId="jobId"
+            :taskId="task_id"
+          />
         </div>
       </div>
       <!-- Tuples details -->
       <div class="card rounded-0 mt-3">
         <div class="card-header">Tuple Details</div>
-        <div class="col-md-9 mt-4 py-2" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px">
+        <div
+          class="col-md-9 mt-4 py-2"
+          style="margin-right: 10px; white-space: nowrap; padding: 5px 20px"
+        >
           <h6>Select Attributes</h6>
         </div>
         <div class="card-body">
           <div v-for="n in 5" :key="n" class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" :id="'columnCheck' + n" :value="n"
-              v-model="selectedColumns" />
-            <label class="form-check-label" :for="'columnCheck' + n">Column {{ n }}</label>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              :id="'columnCheck' + n"
+              :value="n"
+              v-model="selectedColumns"
+            />
+            <label class="form-check-label" :for="'columnCheck' + n"
+              >Column {{ n }}</label
+            >
           </div>
         </div>
         <div class="card-body">
@@ -105,26 +140,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(tuple, index) in tuples" :key="tuple.hackit_tuple.metadata.tuple_id">
+              <tr
+                v-for="(tuple, index) in tuples"
+                :key="tuple.hackit_tuple.metadata.tuple_id"
+              >
                 <td>
-                  <span :style="{
-                    paddingRight: tuple.hackit_tuple.metadata.isBug
-                      ? '10px'
-                      : '0',
-                  }">
+                  <span
+                    :style="{
+                      paddingRight: tuple.hackit_tuple.metadata.isBug
+                        ? '10px'
+                        : '0',
+                    }"
+                  >
                     {{ tuple.hackit_tuple.metadata.tuple_id }}
                   </span>
-                  <button v-if="tuple.hackit_tuple.metadata.isBug" @click="handleDebug(index)"
-                    class="btn btn-warning btn-sm">
+                  <button
+                    v-if="tuple.hackit_tuple.metadata.isBug"
+                    @click="handleDebug(index)"
+                    class="btn btn-warning btn-sm"
+                  >
                     Debug
                   </button>
                 </td>
-                <td v-for="n in sortedSelectedColumns" :key="'data-' + n + '-' + tuple.hackit_tuple.metadata.tuple_id
-                  ">
-                  <input v-if="tuple.hackit_tuple.metadata.isBug" :ref="'inputField' + n + '_' + index"
+                <td
+                  v-for="n in sortedSelectedColumns"
+                  :key="
+                    'data-' + n + '-' + tuple.hackit_tuple.metadata.tuple_id
+                  "
+                >
+                  <input
+                    v-if="tuple.hackit_tuple.metadata.isBug"
+                    :ref="'inputField' + n + '_' + index"
                     v-model="tuple.hackit_tuple.wayang_tuple['key' + n]"
-                    class="form-control form-control-sm editable-input" />
-                  <span v-if="!tuple.hackit_tuple.metadata.isBug">{{ tuple.hackit_tuple.wayang_tuple["key" + n] || "-" }}
+                    class="form-control form-control-sm editable-input"
+                  />
+                  <span v-if="!tuple.hackit_tuple.metadata.isBug"
+                    >{{ tuple.hackit_tuple.wayang_tuple["key" + n] || "-" }}
                   </span>
                 </td>
               </tr>
@@ -132,11 +183,24 @@
           </table>
         </div>
         <!--SnackBar Message-->
-        <div class="toast" data-autohide="true" v-if="snackBar.show" role="alert" aria-live="assertive" aria-atomic="true"
-          id="snackbarToast" :class="{ show: snackBar.show }">
+        <div
+          class="toast"
+          data-autohide="true"
+          v-if="snackBar.show"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          id="snackbarToast"
+          :class="{ show: snackBar.show }"
+        >
           <div class="toast-header">
             <strong class="me-auto">Notification</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" @click="snackBar.show = false"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              @click="snackBar.show = false"
+            ></button>
           </div>
           <div class="toast-body">
             {{ snackBar.message }}
@@ -183,6 +247,7 @@ export default {
             metadata: {
               //tuple_id: [],
               tuple_id: "1",
+              isBug: false,
             },
             wayang_tuple: {
               key1: "Peter",
@@ -191,6 +256,7 @@ export default {
               key4: "Science",
               key5: "Molecular",
             },
+            isEditable: false,
           },
         },
         {
@@ -199,6 +265,7 @@ export default {
               //tuple_id: [],
               tuple_id: "2",
               tags: [],
+              isBug: false,
             },
             wayang_tuple: {
               key1: "George",
@@ -207,6 +274,7 @@ export default {
               key4: "Technology",
               key5: "Algorithms",
             },
+            isEditable: false,
           },
         },
         {
@@ -215,6 +283,7 @@ export default {
               //tuple_id: [],
               tuple_id: "3",
               tags: [],
+              isBug: false,
             },
             wayang_tuple: {
               key1: "Maria",
@@ -223,6 +292,7 @@ export default {
               key4: "Design",
               key5: "Sustainable Development",
             },
+            isEditable: false,
           },
         },
         {
@@ -241,6 +311,7 @@ export default {
               key4: "Science",
               key5: "Anatomy",
             },
+            isEditable: true,
           },
         },
         {
@@ -249,6 +320,7 @@ export default {
               //tuple_id: [],
               tuple_id: "5",
               tags: [],
+              isBug: false,
             },
             wayang_tuple: {
               key1: "value5-1",
@@ -257,6 +329,7 @@ export default {
               key4: "value5-4",
               key5: "value5-5",
             },
+            isEditable: false,
           },
         },
       ],
@@ -288,48 +361,16 @@ export default {
     },
     async fetchTuples() {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           `http://localhost:3000/tuples/?job_id=${this.jobId}`
         );
-        const apiTuples = response.data;
-        const processedApiTuples = apiTuples.map((apiTuple) => {
-          return {
-            ...apiTuple,
-            hackit_tuple: {
-              ...apiTuple.hackit_tuple,
-              wayang_tuple: {
-                ...apiTuple.hackit_tuple.wayang_tuple,
-              },
-            },
-          };
-        });
-        // Find the tuple with task_id '4' and set the 'isBug' flag to true to make it a debuggable row
-        const jobIdTuple = processedApiTuples.find(
-          (tuple) => tuple.hackit_tuple.metadata.task_id === "4"
-        );
-        if (jobIdTuple) {
-          jobIdTuple.hackit_tuple.metadata.isBug = true;
-        }
+        const tuples = await response.json();
 
-        this.tuples = [
-          ...processedApiTuples,
-          {
-            hackit_tuple: {
-              metadata: {
-                tuple_id: "", // Set the task_id accordingly
-                isBug: true,
-              },
-              wayang_tuple: {
-                //key1: "value6-1",
-                //key2: "value6-2",
-                //key3: "value6-3",
-                //key4: "value6-4",
-                //key5: "value6-5",
-                //},
-              }
-            },
-          },
-        ];
+        // Update tuples and set isEditable based on whether a tuple is a bug
+        this.tuples = tuples.map((tuple) => ({
+          ...tuple,
+          isEditable: tuple.hackit_tuple.metadata.isBug, // Set to true for bug tuples
+        }));
 
         this.updateTaskIdsAndTags();
         this.filterTuples();
@@ -337,6 +378,83 @@ export default {
         console.error("Error fetching tuples:", error);
       } finally {
         this.isLoading = false;
+      }
+    },
+
+    async saveTuple(index) {
+      const tuple = this.tuples[index];
+
+      // Check if the tuple is editable (is a bug)
+      if (tuple.isEditable) {
+        const tupleData = {
+          // Customize this data based on the structure of your backend API
+          tupleId: tuple.hackit_tuple.metadata.tuple_id,
+          debugData: {
+            // Add properties for each column here
+            key1: tuple.hackit_tuple.wayang_tuple.key1,
+            key2: tuple.hackit_tuple.wayang_tuple.key2,
+            // ...
+          },
+        };
+
+        try {
+          const response = await fetch("/path-to-backend-endpoint", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tupleData),
+          });
+
+          if (response.ok) {
+            console.log("Data saved successfully:", response.data);
+          } else {
+            console.error("Error saving tuple:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error saving tuple:", error);
+        }
+      } else {
+        console.log("This tuple is not editable (not a bug).");
+      }
+    },
+    async saveTuple(index) {
+      const tuple = this.tuples[index];
+
+      if (tuple.isEditable) {
+        const tupleData = {
+          // Customize this data based on the structure of  backend API
+          tupleId: tuple.hackit_tuple.metadata.tuple_id,
+          debugData: {
+            // Add properties for each
+            key1: tuple.hackit_tuple.wayang_tuple.key1,
+            key2: tuple.hackit_tuple.wayang_tuple.key2,
+            key3: tuple.hackit_tuple.wayang_tuple.key3,
+            key4: tuple.hackit_tuple.wayang_tuple.key4,
+            key5: tuple.hackit_tuple.wayang_tuple.key5,
+          },
+        };
+
+        try {
+          const response = await fetch("/path-to-backend-endpoint", {
+            // Add properties for each column here
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(tupleData),
+          });
+
+          if (response.ok) {
+            console.log("Data saved successfully:", response.data);
+          } else {
+            console.error("Error saving tuple:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error saving tuple:", error);
+        }
+      } else {
+        console.log("This tuple is not editable (not a bug).");
       }
     },
     nextTuple() {
@@ -348,6 +466,7 @@ export default {
       this.showModal = true;
       this.openModal(taskId);
     },
+
     async openModal(node) {
       try {
         // GET request backend API to fetch node-specific data
