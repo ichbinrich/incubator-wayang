@@ -1,63 +1,67 @@
+
 <template>
     <div class="col-md-9 mt-4 py-2" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px">
-      <h6>Select Attributes</h6>
-      <div class="card-body">
-        <div v-for="(attribute, index) in attributes" :key="index" class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" :id="'attributeCheck' + index" :value="attribute" v-model="selectedColumns" />
-          <label class="form-check-label" :for="'attributeCheck' + index">{{ attribute }}</label>
+        <h6>Select Attributes</h6>
+        <div class="card-body">
+            <div v-for="(attribute, index) in attributes" :key="index" class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" :id="'attributeCheck' + index" :value="attribute"
+                    v-model="selectedColumns" />
+                <label class="form-check-label" :for="'attributeCheck' + index">{{ attribute }}</label>
+            </div>
         </div>
-      </div>
     </div>
-  
-    <div class="card-body" style="max-height: 250vh; overflow-y: auto">
-      <table class="table">
+
+    <table class="table">
         <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th v-for="column in selectedColumns" :key="column">{{ column }}</th>
-          </tr>
+            <tr>
+                <th></th>
+                <th v-for="column in selectedColumns" :key="column">
+                    {{ column }}
+                </th>
+            </tr>
         </thead>
         <tbody>
-          <tr v-for="tuple in otherTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
-            <td>
-              <div style="display: flex; align-items: center">
-                <span style="margin-right: 10px; font-size: 14px">
-                  {{ tuple.hackit_tuple.metadata.tuple_id }}
-                </span>
-                <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-2" title="Edit">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1" :disabled="!isEditing(tuple)" title="Save">
-                  Save
-                </button>
-                <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-magnifying-glass" title="Monitor"></i>
-                <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" class="fas fa-bug red-icon text-danger small-button" title="Debug" @click="debugTuple(tuple)"></i>
-              </div>
-            </td>
-            <!-- Ensure that 'selectedColumns' contains all the required columns -->
-            <td v-for="(column, colIndex) in selectedColumns" :key="column" class="editable-cell px-1 py-1">
-              <div v-if="isEditing(tuple)">
-                <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][column]" class="form-control w-100 px-1 py-1" />
-              </div>
-              <div v-else>
-                <!-- Use Bootstrap grid system to align columns and values -->
-                <div class="row">
-                  <div class="col">
-                    <!-- If the column is "activity_label," display it directly -->
-                    {{ column === "activity_label" ? tuple.hackit_tuple.wayang_tuple.activity_label : '' }}
-                  </div>
-                  <div class="col">
-                    {{ column !== "activity_label" ? tuple.hackit_tuple.wayang_tuple[column] || "-" : '' }}
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
+            <tr v-for="tuple in otherTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
+                <td>
+                    <div style="display: flex; align-items: center">
+                        <span style="margin-right: 10px; font-size: 14px">
+                            {{ tuple.hackit_tuple.metadata.tuple_id }}
+                        </span>
+                        <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-2"
+                            title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1"
+                            :disabled="!isEditing(tuple)" title="Save">
+                            Save
+                        </button>
+                        <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-magnifying-glass"
+                            title="Monitor"></i>
+                        <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')"
+                            class="fas fa-bug red-icon text-danger small-button" title="Debug"
+                            @click="debugTuple(tuple)"></i>
+                    </div>
+                </td>
+                <!-- Ensure that 'selectedColumns' contains all the required columns -->
+                <td v-for="(column, colIndex) in selectedColumns" :key="column" class="editable-cell px-1 py-1">
+                    <div v-if="isEditing(tuple)">
+                        <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][column]"
+                            class="form-control w-100 px-1 py-1" />
+                    </div>
+                    <div v-else>
+                        <div class="column-name">{{ }}</div>
+                        <!--if removed will show the attribute's name on top -->
+                        <!--div class="column-name">{{  }}</div!-->
+                        <div class="column-value">
+                            {{ column === 'activity_label' ? tuple.hackit_tuple.wayang_tuple.activity_label :
+                                tuple.hackit_tuple.wayang_tuple[column] || '-' }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
         </tbody>
-      </table>
-    </div>
-  </template>
+    </table>
+</template>  
   
 
 <script>
