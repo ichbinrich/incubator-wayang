@@ -63,6 +63,7 @@
     >
       Next Tuple
     </button>
+
     <button
       class="btn btn-secondary"
       style="margin-right: 10px; white-space: nowrap; padding: 5px 20px"
@@ -76,8 +77,19 @@
 </template>
 
 <script>
+import Codemirror from "codemirror-editor-vue3";
+import JobPlan from "./JobPlan.vue";
+
 export default {
   name: "HackitControls",
+  components: {
+    Codemirror,
+    JobPlan,
+  },
+
+  props: {
+    nextNodeId: String,
+  },
   data() {
     return {
       isRunning: false,
@@ -132,13 +144,11 @@ export default {
         this.$emit("next-tuple", "isNextTupleActive");
       }
     },
-    nextOperatorClickedextOperator() {
+    nextOperatorClicked() {
       if (this.isNextOperatorActive) {
         this.$emit("next-operator-clicked", "isNextOperatorActive");
-        eventBus$emit("next-operator-clicked", "isNextOperatorActive");
       }
     },
-
     async pauseJob() {
       try {
         const response = await axios.post("http://localhost:3000/pause-job");

@@ -74,6 +74,7 @@
   </div>
   <!--codemirror IDE-->
   <Codemirror
+    ref="codeMirror"
     v-model:value="codeContent"
     :options="cmOptions"
     border
@@ -233,17 +234,33 @@ export default {
         event.target.removeClass("selected");
         this.$emit("task-selected", null);
       } else {
+        this.clearCodeMirror(); // Clear the CodeMirror content
         cy.nodes().removeClass("selected");
         event.target.addClass("selected");
         this.$emit("task-selected", event.target.data("task_id"));
       }
     });
-    // Watch for updates to the 'task_id' prop and apply the 'selected' class to the corresponding node
-    this.$watch("task_id", (newVal, oldVal) => {
-      cy.nodes().removeClass("selected");
-      if (newVal && newVal !== "") {
-        selectNode(newVal);
+
+    this.$eventBus.on("next-operator-clicked", () => {
+      // Implement the logic for handling the 'next-operator-clicked' event here
+      // This is where you can respond to the button click.
+
+      // Increment the selectedNodeIndex to move to the next node operator
+      this.selectedNodeIndex++;
+
+      // Ensure the index stays within bounds
+      if (this.selectedNodeIndex >= cy.nodes().length) {
+        this.selectedNodeIndex = 0;
       }
+
+      // Deselect all nodes
+      cy.nodes().unselect();
+
+      // Select the next node operator
+      const selectedNode = cy.nodes()[this.selectedNodeIndex];
+      selectedNode.select();
+
+      // You can add your custom logic here to respond to the button click.
     });
 
     cy.contextMenus({
@@ -303,6 +320,16 @@ export default {
       }
     },
 
+    nextOperatorClicked() {
+      if (this.isNextOperatorActive) {
+        // Clear the CodeMirror content
+        this.clearCodeMirror();
+
+        // Emit the 'next-operator-clicked' event to the event bus
+        this.$eventBus.emit("next-operator-clicked");
+      }
+    },
+
     executeCode() {
       console.log("Running code...");
     },
@@ -315,25 +342,28 @@ export default {
       console.log(this.codeContent);
       this.closeModal();
     },
-  },
+    clearCodeMirror() {
+      this.codeContent = ""; // Set the content to an empty string to clear it
+    },
 
-  async submitRepoURL() {
-    this.isSubmitting = true;
-    try {
-      let response = await this.$axios.post("/your-api-endpoint", {
-        url: this.githubRepoURL,
-      });
+    async submitRepoURL() {
+      this.isSubmitting = true;
+      try {
+        let response = await this.$axios.post("/your-api-endpoint", {
+          url: this.githubRepoURL,
+        });
 
-      if (response.data.success) {
-        this.submissionMessage = "URL successfully submitted!";
-      } else {
-        this.submissionMessage = "Failed to submit URL. Please try again.";
+        if (response.data.success) {
+          this.submissionMessage = "URL successfully submitted!";
+        } else {
+          this.submissionMessage = "Failed to submit URL. Please try again.";
+        }
+      } catch (error) {
+        this.submissionMessage = "An error occurred. Please try again later.";
+      } finally {
+        this.isSubmitting = false;
       }
-    } catch (error) {
-      this.submissionMessage = "An error occurred. Please try again later.";
-    } finally {
-      this.isSubmitting = false;
-    }
+    },
   },
 };
 </script>

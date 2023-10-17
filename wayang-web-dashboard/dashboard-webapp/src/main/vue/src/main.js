@@ -29,12 +29,14 @@ import router from "./router";
 import "bootstrap/dist/css/bootstrap.css";
 import "jquery/dist/jquery.slim";
 import "bootstrap/dist/js/bootstrap.bundle";
+import eventBus from '@/event-bus';
 
 // Create a Pinia instance
 const pinia = createPinia();
 
 library.add(faPlay);
 const app = createApp(App);
+app.config.globalProperties.$eventBus = eventBus;
 app.use(pinia); // Use Pinia
 app.use(router);
 app.component("font-awesome-icon", FontAwesomeIcon);

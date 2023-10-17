@@ -717,6 +717,7 @@
           "tuple_id": 3,
           "tags": [
             "MONITOR",
+            "DEBUG",
             "CUSTOM_TAG_1"
           ]
         }
