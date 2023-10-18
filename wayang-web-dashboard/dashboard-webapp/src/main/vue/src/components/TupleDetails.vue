@@ -16,68 +16,84 @@
   specific language governing permissions and limitations
   under the License.
   -->
-  <template>
-    <div class="col-md-9 mt-4 py-2" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px">
-        <h6>Select Tuples</h6>
-        <div class="card-body">
-            <div v-for="tuple in tuples" :key="tuple.hackit_tuple.metadata.tuple_id" class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" :id="'tupleCheck' + tuple.hackit_tuple.metadata.tuple_id"
-                    :value="tuple" v-model="selectedTuples" />
-                <label class="form-check-label" :for="'tupleCheck' + tuple.hackit_tuple.metadata.tuple_id">
-                    {{ tuple.hackit_tuple.metadata.tuple_id }}
-                </label>
+<template>
+    <!--div v-if="isLoading">Loading...</div>
+    <div v-else>
+        <div class="filters mt-1 p-3">
+            <label for="task-select" class="p-2">Filter by Task ID: </label>
+            <select id="task-select" v-model="selectedTask">
+                <option value="">All</option>
+                <option v-for="taskId in taskIds" :key="taskId" :value="taskId">{{ taskId }}</option>
+            </select>
+            <label for="tag-select" class="p-2">Filter by Tag:</label>
+            <select id="tag-select" v-model="selectedTag">
+                <option value="">All</option>
+                <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
+            </select>
+        </div!-->
+
+        <div class="col-md-9 mt-4 py-2" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px">
+            <h6>Select Tuples</h6>
+            <div class="card-body">
+                <!-- Dropdown for selecting the number of tuples -->
+                <select v-model="selectedTupleCount" @change="selectTuples">
+                    <option value="5">5 Tuples</option>
+                    <option value="10">10 Tuples</option>
+                    <option value="20">20 Tuples</option>
+                </select>
             </div>
         </div>
-    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th v-for="attribute in attributes" :key="attribute">{{ attribute }}</th>
-            </tr>
-        </thead>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th v-for="attribute in attributes" :key="attribute">{{ attribute }}</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            <tr v-for="tuple in selectedTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
-                <td>
-                    <div style="display: flex; align-items: center">
-                        <span style="margin-right: 10px; font-size: 14px">{{ tuple.hackit_tuple.metadata.tuple_id }}</span>
-                        <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-2"
-                            title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1"
-                            :disabled="!isEditing(tuple)" title="Save">
-                            Save
-                        </button>
-                        <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-magnifying-glass"
-                            title="Monitor"></i>
-                        <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')"
-                            class="fas fa-bug red-icon text-danger small-button" title="Debug"
-                            @click="debugTuple(tuple)"></i>
-                    </div>
-                </td>
-                <td v-for="(attribute, index) in attributes" :key="attribute" class="editable-cell px-1 py-1">
-                    <div v-if="isEditing(tuple)">
-                        <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]"
-                            class="form-control w-100 px-1 py-1" />
-
-                    </div>
-                    <div v-else>
-                        <div class="column-value">
-                            {{ isEditing(tuple) ? editedData[tuple.hackit_tuple.metadata.tuple_id][attribute] :
-                                getTupleAttribute(tuple, attribute) }}
+            <tbody>
+                <tr v-for="tuple in selectedTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
+                    <td>
+                        <div style="display: flex; align-items: center">
+                            <span style="margin-right: 10px; font-size: 14px">{{ tuple.hackit_tuple.metadata.tuple_id
+                            }}</span>
+                            <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-2"
+                                title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1"
+                                :disabled="!isEditing(tuple)" title="Save">
+                                Save
+                            </button>
+                            <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-magnifying-glass"
+                                title="Monitor"></i>
+                            <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')"
+                                class="fas fa-bug red-icon text-danger small-button" title="Debug"
+                                @click="debugTuple(tuple)"></i>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                    <td v-for="(attribute, index) in attributes" :key="attribute" class="editable-cell px-1 py-1">
+                        <div v-if="isEditing(tuple)">
+                            <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]"
+                                class="form-control w-100 px-1 py-1" />
+
+                        </div>
+                        <div v-else>
+                            <div class="column-value">
+                                {{ isEditing(tuple) ? editedData[tuple.hackit_tuple.metadata.tuple_id][attribute] :
+                                    getTupleAttribute(tuple, attribute) }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+   
 </template>
 <script>
 import Tuple from "./Tuple.vue";
-import axios from "axios";
+
 
 export default {
     name: "TupleDetails",
@@ -99,19 +115,29 @@ export default {
         },
     },
     data() {
-        return {
-            isLoading: true,
-            tuples: [],
-            selectedTuples: [],
-            attributes: ["activity_label", "timestamp", "acceleration_x", "acceleration_y", "acceleration_z", "gyroscope_x"],
-            snackBar: {
-                show: false,
-                message: "",
-            },
-            editedData: {},
-            tuplesToDisplay: [],
-        };
+  return {
+    isLoading: true,
+    tuples: [],
+    selectedTuples: [],
+    attributes: [
+      "activity_label",
+      "timestamp",
+      "acceleration_x",
+      "acceleration_y",
+      "acceleration_z",
+      "gyroscope_x",
+    ],
+    snackBar: {
+      show: false,
+      message: "",
     },
+    editedData: {},
+    tuplesToDisplay: [],
+    selectedTupleCount: 0, // Initialize with 5 tuples
+  };
+},
+
+
     created() {
         this.fetchTuples();
         this.addTestTuples();
@@ -153,6 +179,9 @@ export default {
                 this.isLoading = false;
             }
         },
+        selectTuples() {
+            this.selectedTuples = this.tuples.slice(0, this.selectedTupleCount);
+        },
 
         shouldDisplayTuple(tuple) {
             // Function to determine if a tuple should be displayed
@@ -189,21 +218,7 @@ export default {
             this.selectedTask = this.taskId;
         },
 
-        isEditing(tuple) {
-            return (
-                this.editedData[tuple.hackit_tuple.metadata.tuple_id] &&
-                Object.keys(this.editedData[tuple.hackit_tuple.metadata.tuple_id])
-                    .length > 0
-            );
-        },
 
-        isEditing(tuple) {
-            return (
-                this.editedData[tuple.hackit_tuple.metadata.tuple_id] &&
-                Object.keys(this.editedData[tuple.hackit_tuple.metadata.tuple_id])
-                    .length > 0
-            );
-        },
 
         editRow(tuple) {
             if (!this.editedData[tuple.hackit_tuple.metadata.tuple_id]) {
@@ -215,23 +230,6 @@ export default {
                 this.editedData[tuple.hackit_tuple.metadata.tuple_id][column] =
                     this.getValueForColumn(tuple.hackit_tuple.metadata.tuple_id, column);
             });
-        },
-
-        saveRow(tuple) {
-            const tupleId = tuple.hackit_tuple.metadata.tuple_id;
-
-            if (this.editedData[tupleId]) {
-                // Update the local data with the edited values
-                const editedTuple = this.tuples.find((t) => t.hackit_tuple.metadata.tuple_id === tupleId);
-                if (editedTuple) {
-                    for (const attribute in this.editedData[tupleId]) {
-                        editedTuple.hackit_tuple.wayang_tuple[attribute] = this.editedData[tupleId][attribute];
-                    }
-                }
-
-                // Clear the edited data for this tuple
-                this.editedData[tupleId] = {};
-            }
         },
 
         isEditing(tuple) {
@@ -343,6 +341,7 @@ export default {
                 this.showSnackBarMessage(`Tuple ${tupleId} saved successfully.`);
             }
         },
+
 
         showSnackBarMessage(message) {
             this.snackBar.message = message;

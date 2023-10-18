@@ -18,6 +18,7 @@
   -->
 <template>
   <!---Tuples - Filter by task ID-->
+  
   <div class="hackit-debugger">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
@@ -36,6 +37,8 @@
             {{ tag }}
           </option>
         </select>
+
+
       </div>
       <table class="table table-borderless mb-0">
         <table class="table table-borderless mb-0">
@@ -52,6 +55,8 @@
         <table class="table table-borderless mb-0">
           <tbody v-if="filteredTuples.length > 0">
             <Tuple v-for="(tuple, index) in filteredTuples" :key="index" :tuple="tuple" />
+
+            
           </tbody>
         </table>
       </div>

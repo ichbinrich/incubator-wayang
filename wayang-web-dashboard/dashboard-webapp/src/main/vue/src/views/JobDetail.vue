@@ -77,8 +77,8 @@
         </div>
       </div>
       <!-- Tuples Card -->
-      <div class="card rounded-0 mt-3">
-        <div class="card-header">Tuples</div>
+      <div class="card rounded-0 mt-4 py-0">
+        <div class="card-header">Tuples in Each Node Operator</div>
         <div class="card-body tuples-card">
           <HackitDebugger :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
         </div>

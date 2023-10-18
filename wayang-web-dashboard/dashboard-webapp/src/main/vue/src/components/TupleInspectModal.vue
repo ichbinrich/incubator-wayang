@@ -16,76 +16,76 @@
   specific language governing permissions and limitations
   under the License.
   -->
-  <template>
-     <div v-if="tuple" class="modal fade" :id="'modal-' + tuple.hackit_tuple.metadata.tuple_id" aria-hidden="true"
+<template>
+  <div v-if="tuple" class="modal fade" :id="'modal-' + tuple.hackit_tuple.metadata.tuple_id" aria-hidden="true"
     aria-labelledby="modalTitle" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalTitle">Tuple Details </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <th style="border: none;">Tuple ID</th>
-                  <td style="border: none;">
-                    <input id="tuple_id" :value="tuple.hackit_tuple.metadata.tuple_id" disabled readonly
-                      class="form-control" />
-                  </td>
-                </tr>
-                <tr>
-                </tr>
-                <tr>
-                  <th style="border: none;">Wayang Tuple</th>
-                  <td style="border: none;">
-                    <table class="table" :class="{ 'table-warning': debug }">
-                      <thead>
-                        <tr>
-                          <th>Value</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="(value, key) in tuple.hackit_tuple.wayang_tuple" :key="key">
-                          <td>{{ key }}</td>
-                          <td>
-                            <input v-if="debug" class="form-control" :value="value" :readonly="!debug" />
-                            <input v-else class="form-control" :value="value" disabled readonly />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" type="button"
-              class="btn btn-primary">Done</button>
-          </div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Tuple Details </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th style="border: none;">Tuple ID</th>
+                <td style="border: none;">
+                  <input id="tuple_id" :value="tuple.hackit_tuple.metadata.tuple_id" disabled readonly
+                    class="form-control" />
+                </td>
+              </tr>
+              <tr>
+              </tr>
+              <tr>
+                <th style="border: none;">Wayang Tuple</th>
+                <td style="border: none;">
+                  <table class="table" :class="{ 'table-warning': debug }">
+                    <thead>
+                      <tr>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(value, key) in tuple.hackit_tuple.wayang_tuple" :key="key">
+                        <td>{{ key }}</td>
+                        <td>
+                          <input v-if="debug" class="form-control" :value="value" :readonly="!debug" />
+                          <input v-else class="form-control" :value="value" disabled readonly />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" type="button"
+            class="btn btn-primary">Done</button>
         </div>
       </div>
     </div>
-  </template>
-  <script>
-  export default {
-    name: 'TupleInspectModal',
-    props: {
-      tuple: Object,
+  </div>
+</template>
+<script>
+export default {
+  name: 'TupleInspectModal',
+  props: {
+    tuple: Object,
+  },
+  methods: {
+    formatTimestamp(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleString();
     },
-    methods: {
-      formatTimestamp(timestamp) {
-        const date = new Date(timestamp);
-        return date.toLocaleString();
-      },
-    },
-    computed: {
-      debug: function () {
-        return this.tuple.hackit_tuple.metadata.tags.includes('DEBUG');
-      }
+  },
+  computed: {
+    debug: function () {
+      return this.tuple.hackit_tuple.metadata.tags.includes('DEBUG');
     }
-  };
-  </script>
+  }
+};
+</script>
     

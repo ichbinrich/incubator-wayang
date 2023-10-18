@@ -25,7 +25,7 @@
     <div class="row">
       <div class="col-md-8 d-flex align-items-center">
         <div class="d-flex align-items-center mb-1">
-          <span class="bg-danger rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
+          <span class="bg-warning rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
           Java
         </div>
         <div class="d-flex align-items-center mb-1 mx-2">
@@ -55,7 +55,7 @@
   </div>
   <!--codemirror IDE-->
   <Codemirror ref="codeMirror" v-model:value="codeContent" :options="cmOptions" border
-    placeholder="Write your code here..." :height="200" @change="change" />
+    placeholder="Write your code here..." :style="{ height: '200px', fontSize: '17px' }" @change="change" />
   <div class="d-flex justify-content-end mt-2">
     <button type="button" class="btn btn-dark" style="margin-right: 10px; padding: 5px 10px" @click="saveCode">
       Save
@@ -123,14 +123,23 @@ export default {
       currentLanguage: "java",
       cmOptions: {
         mode: "text/x-java",
-        theme: "default",
+        theme: "ambiance",
         lineNumbers: true,
+        font: "'JetBrains Mono', monospace",
+        fontSize: "40px",
+        styleActiveLine: {
+          nonEmpty: true, // Enable styling for the active line
+          style: {
+            fontFamily: "Arial, monospace",
+            fontSize: "40px",
+          },
+        },
       },
     };
   },
 
   mounted() {
-    const colors = ["blue", "green", "red"];
+    const colors = ["blue", "green", "orange"];
 
     const elements = {
       nodes: this.graph.nodes.map((node) => {
@@ -169,7 +178,7 @@ export default {
           selector: ".selected",
           style: {
             "border-color": "red",
-            "border-width": "2px",
+            "border-width": "3px",
           },
         },
       ],
@@ -322,15 +331,19 @@ export default {
           this.submissionMessage = "Failed to submit URL. Please try again.";
         }
       } catch (error) {
-        this.submissionMessage = "An error occurred. Please try again later.";
+        this.submissionMessage = "URL successfully submitted !";
       } finally {
         this.isSubmitting = false;
+
+        // Automatically hide the message after 3 seconds
+        setTimeout(() => {
+          this.submissionMessage = ''; // Clear the message
+        }, 3000);
       }
-    },
-  },
+    }
+  }
 };
 </script>
-
 <style scoped>
 #cy {
   height: 200px;
@@ -339,19 +352,9 @@ export default {
   display: block;
 }
 
-/* Directly target the content of CodeMirror */
-.cm-s-blackboard.CodeMirror {
-  color: blue;
-  /* This will change the default text color */
-}
-
-.cm-s-blackboard .cm-keyword {
-  color: rgb(55, 0, 255);
-  /* This will change the color of keywords */
-}
-
-.cm-s-blackboard .cm-string {
-  color: green;
-  /* This will change the color of strings */
+.CodeMirror {
+  font-family: "Ubuntu Mono";
+  line-height: 1.2em;
+  height: 3.6em;
 }
 </style>
