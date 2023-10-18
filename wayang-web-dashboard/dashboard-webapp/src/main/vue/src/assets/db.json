@@ -774,6 +774,256 @@
       }
     },
     {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 1,
+          "activity_label": "Walking",
+          "timestamp": "2016-05-30 14:13:16",
+          "acceleration_x": 0.27324998,
+          "acceleration_y": -0.031390495,
+          "acceleration_z": 0.0066611624,
+          "gyroscope_x": 0.03807301,
+          "gyroscope_y": 0.037263952,
+          "gyroscope_z": -0.0050823064
+        },
+        "metadata": {
+          "timestamp": 1680179055000,
+          "tuple_id": 12,
+          "tags": [
+            "MONITOR"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa85f64-5717-4562-b3fc-2c963f66afa7",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 2,
+          "activity_label": "Walking",
+          "timestamp": "2016-06-02 13:14:14",
+          "acceleration_x": 0.2847828,
+          "acceleration_y": -0.019634986,
+          "acceleration_z": -0.031512145,
+          "gyroscope_x": -0.057105787,
+          "gyroscope_y": 0.0006557526,
+          "gyroscope_z": -0.028644928
+        },
+        "metadata": {
+          "timestamp": 1680179055040,
+          "tuple_id": 22,
+          "tags": [
+            "MONITOR",
+            "CUSTOM_TAG_1"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 3,
+          "activity_label": "Walking",
+          "timestamp": "2016-06-01 10:53:08",
+          "acceleration_x": 0.27842945,
+          "acceleration_y": -0.014614308,
+          "acceleration_z": -0.03022871,
+          "gyroscope_x": -0.047901008,
+          "gyroscope_y": -0.00068126145,
+          "gyroscope_z": -0.0011097406
+        },
+        "metadata": {
+          "timestamp": 1680179056000,
+          "tuple_id": 32,
+          "tags": [
+            "MONITOR",
+            "DEBUG",
+            "CUSTOM_TAG_1"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 4,
+          "activity_label": "Walking",
+          "timestamp": "2016-05-30 16:15:25",
+          "acceleration_x": 0.28061098,
+          "acceleration_y": -0.0192165,
+          "acceleration_z": -0.013119803,
+          "gyroscope_x": 0.038402643,
+          "gyroscope_y": -0.0015931913,
+          "gyroscope_z": 0.029956576
+        },
+        "metadata": {
+          "timestamp": 1680179057000,
+          "tuple_id": 42,
+          "tags": [
+            "MONITOR",
+            "DEBUG",
+            "CUSTOM_TAG_1"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa86f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 5,
+          "activity_label": "Walking",
+          "timestamp": "2016-06-03 12:15:14",
+          "acceleration_x": 0.27554935,
+          "acceleration_y": -0.015275819,
+          "acceleration_z": -0.020764702,
+          "gyroscope_x": -0.03552413,
+          "gyroscope_y": -0.0063406304,
+          "gyroscope_z": 0.027040802
+        },
+        "metadata": {
+          "timestamp": 1680179059000,
+          "tuple_id": 52,
+          "tags": [
+            "MONITOR"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 1,
+          "activity_label": "Walking",
+          "timestamp": "2016-05-30 14:13:16",
+          "acceleration_x": 0.27324998,
+          "acceleration_y": -0.031390495,
+          "acceleration_z": 0.0066611624,
+          "gyroscope_x": 0.03807301,
+          "gyroscope_y": 0.037263952,
+          "gyroscope_z": -0.0050823064
+        },
+        "metadata": {
+          "timestamp": 1680179055000,
+          "tuple_id": 13,
+          "tags": [
+            "MONITOR"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa86f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 2,
+          "activity_label": "Walking",
+          "timestamp": "2016-06-02 13:14:14",
+          "acceleration_x": 0.2847828,
+          "acceleration_y": -0.019634986,
+          "acceleration_z": -0.031512145,
+          "gyroscope_x": -0.057105787,
+          "gyroscope_y": 0.0006557526,
+          "gyroscope_z": -0.028644928
+        },
+        "metadata": {
+          "timestamp": 1680179055040,
+          "tuple_id": 23,
+          "tags": [
+            "MONITOR",
+            "CUSTOM_TAG_1"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 3,
+          "activity_label": "Walking",
+          "timestamp": "2016-06-01 10:53:08",
+          "acceleration_x": 0.27842945,
+          "acceleration_y": -0.014614308,
+          "acceleration_z": -0.03022871,
+          "gyroscope_x": -0.047901008,
+          "gyroscope_y": -0.00068126145,
+          "gyroscope_z": -0.0011097406
+        },
+        "metadata": {
+          "timestamp": 1680179056000,
+          "tuple_id": 33,
+          "tags": [
+            "MONITOR",
+            "DEBUG",
+            "CUSTOM_TAG_1"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa87f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 4,
+          "activity_label": "Walking",
+          "timestamp": "2016-05-30 16:15:25",
+          "acceleration_x": 0.28061098,
+          "acceleration_y": -0.0192165,
+          "acceleration_z": -0.013119803,
+          "gyroscope_x": 0.038402643,
+          "gyroscope_y": -0.0015931913,
+          "gyroscope_z": 0.029956576
+        },
+        "metadata": {
+          "timestamp": 1680179057000,
+          "tuple_id": 43,
+          "tags": [
+            "MONITOR",
+            "DEBUG",
+            "CUSTOM_TAG_1"
+          ]
+        }
+      }
+    },
+    {
+      "job_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "task_id": "3fa87f64-5717-4562-b3fc-2c963f66afa8",
+      "hackit_tuple": {
+        "wayang_tuple": {
+          "subject_id": 52,
+          "activity_label": "Walking",
+          "timestamp": "2016-06-03 12:15:14",
+          "acceleration_x": 0.27554935,
+          "acceleration_y": -0.015275819,
+          "acceleration_z": -0.020764702,
+          "gyroscope_x": -0.03552413,
+          "gyroscope_y": -0.0063406304,
+          "gyroscope_z": 0.027040802
+        },
+        "metadata": {
+          "timestamp": 1680179059000,
+          "tuple_id": 53,
+          "tags": [
+            "MONITOR"
+          ]
+        }
+      }
+    },
+    {
       "job_id": "3fa85f64-5737-4562-b3fc-2c963f66afa6",
       "task_id": "5fa85f64-5717-4562-b3fc-2c963f66afab",
       "hackit_tuple": {
