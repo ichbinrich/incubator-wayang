@@ -20,9 +20,13 @@
   <div class="col-md-3">
     <div class="card mb-4 rounded-0">
       <div class="card-body">
-        <h3 class="card-title"><slot name="title"></slot></h3>
+        <h3 class="card-title">
+          <slot name="title"></slot>
+        </h3>
         <hr>
-        <p class="card-text"><slot name="metric"></slot></p>
+        <p class="card-text">
+          <slot name="metric"></slot>
+        </p>
       </div>
     </div>
   </div>
@@ -30,13 +34,11 @@
 
 
   
-  <script>
-  export default {
-    name: 'OverviewCard'
-  };
-  </script>
+<script>
+export default {
+  name: 'OverviewCard'
+};
+</script>
   
-  <style scoped>
-
-  </style>
+<style scoped></style>
   

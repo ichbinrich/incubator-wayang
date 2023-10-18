@@ -18,10 +18,7 @@
   -->
 <template id="app">
   <div class="container-fluid bg-dark">
-    <div
-      class="row align-items-center justify-content-center"
-      style="min-height: 100px"
-    >
+    <div class="row align-items-center justify-content-center" style="min-height: 100px">
       <div class="col-auto">
         <router-link to="/" class="navbar-brand d-flex justify-content-center">
           <img src="/logo.png" alt="Logo" class="logo" style="height: 400px" />

@@ -51,21 +51,13 @@
       <div class="table-body-container overflow-auto" style="max-height: 400px">
         <table class="table table-borderless mb-0">
           <tbody v-if="filteredTuples.length > 0">
-            <Tuple
-              v-for="(tuple, index) in filteredTuples"
-              :key="index"
-              :tuple="tuple"
-            />
+            <Tuple v-for="(tuple, index) in filteredTuples" :key="index" :tuple="tuple" />
           </tbody>
         </table>
       </div>
       <div class="col-6 p-2">
-        <div
-          class="alert alert-warning mt-3 px-1 text-left"
-          style="width: 1180px"
-          role="alert"
-          v-if="filteredTuples.length === 0"
-        >
+        <div class="alert alert-warning mt-3 px-1 text-left" style="width: 1180px" role="alert"
+          v-if="filteredTuples.length === 0">
           <h6 class="p-2">No tuples available in this task</h6>
         </div>
       </div>

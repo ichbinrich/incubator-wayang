@@ -25,24 +25,15 @@
     <div class="row">
       <div class="col-md-8 d-flex align-items-center">
         <div class="d-flex align-items-center mb-1">
-          <span
-            class="bg-danger rounded"
-            style="width: 20px; height: 20px; margin-right: 10px"
-          ></span>
+          <span class="bg-danger rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
           Java
         </div>
         <div class="d-flex align-items-center mb-1 mx-2">
-          <span
-            class="bg-primary rounded"
-            style="width: 20px; height: 20px; margin-right: 10px"
-          ></span>
+          <span class="bg-primary rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
           Spark
         </div>
         <div class="d-flex align-items-center mb-1">
-          <span
-            class="bg-success rounded"
-            style="width: 20px; height: 20px; margin-right: 10px"
-          ></span>
+          <span class="bg-success rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
           PostgreSQL
         </div>
       </div>
@@ -52,19 +43,9 @@
   <div class="d-flex align-items-center mt-3">
     <h6 class="mb-0 mr-2"></h6>
     <i class="fab fa-github fa-2x mr-2" style="padding-right: 10px"></i>
-    <input
-      type="url"
-      v-model="githubRepoURL"
-      placeholder="https://github.com/your-repo"
-      class="form-control"
-      style="flex: none; width: 245px; margin-right: 15px"
-    />
-    <button
-      @click="submitRepoURL"
-      :disabled="isSubmitting"
-      class="btn btn-secondary"
-      style="padding: 5px 10px"
-    >
+    <input type="url" v-model="githubRepoURL" placeholder="https://github.com/your-repo" class="form-control"
+      style="flex: none; width: 245px; margin-right: 15px" />
+    <button @click="submitRepoURL" :disabled="isSubmitting" class="btn btn-secondary" style="padding: 5px 10px">
       Submit
     </button>
   </div>
@@ -73,22 +54,10 @@
     <div class="row"></div>
   </div>
   <!--codemirror IDE-->
-  <Codemirror
-    ref="codeMirror"
-    v-model:value="codeContent"
-    :options="cmOptions"
-    border
-    placeholder="Write your code here..."
-    :height="200"
-    @change="change"
-  />
+  <Codemirror ref="codeMirror" v-model:value="codeContent" :options="cmOptions" border
+    placeholder="Write your code here..." :height="200" @change="change" />
   <div class="d-flex justify-content-end mt-2">
-    <button
-      type="button"
-      class="btn btn-dark"
-      style="margin-right: 10px; padding: 5px 10px"
-      @click="saveCode"
-    >
+    <button type="button" class="btn btn-dark" style="margin-right: 10px; padding: 5px 10px" @click="saveCode">
       Save
     </button>
     <button type="button" class="btn btn-primary" @click="executeCode">
@@ -100,13 +69,7 @@
     <h6>Select Predefined Tags</h6>
     <div class="d-flex flex-wrap gap-2">
       <div class="form-check" v-for="(tag, index) in tags" :key="index">
-        <input
-          type="checkbox"
-          class="form-check-input"
-          :id="`tag-${index}`"
-          :value="tag"
-          v-model="selectedTags"
-        />
+        <input type="checkbox" class="form-check-input" :id="`tag-${index}`" :value="tag" v-model="selectedTags" />
         <label class="form-check-label" :for="`tag-${index}`">{{ tag }}</label>
       </div>
     </div>

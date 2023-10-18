@@ -32,18 +32,9 @@
         <div class="job-list">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="input-group">
-              <input
-                v-model="searchQuery"
-                class="form-control rounded-0"
-                type="search"
-                placeholder="Search by name or status"
-                aria-label="Search"
-              />
-              <button
-                class="btn btn-outline-secondary rounded-0"
-                type="button"
-                @click="clearFilter"
-              >
+              <input v-model="searchQuery" class="form-control rounded-0" type="search"
+                placeholder="Search by name or status" aria-label="Search" />
+              <button class="btn btn-outline-secondary rounded-0" type="button" @click="clearFilter">
                 Clear
               </button>
             </div>
@@ -78,11 +69,7 @@
               </tr>
             </thead>
             <tbody>
-              <JobListItem
-                v-for="job in filteredJobs"
-                :key="job.id"
-                :job="job"
-              />
+              <JobListItem v-for="job in filteredJobs" :key="job.id" :job="job" />
             </tbody>
           </table>
         </div>
@@ -139,15 +126,15 @@ export default {
         const avgRunningTime =
           jobCount > 0
             ? Math.round(
-                filteredJobs.reduce((total, job) => total + job.duration, 0) /
-                  jobCount
-              )
+              filteredJobs.reduce((total, job) => total + job.duration, 0) /
+              jobCount
+            )
             : 0;
         const latestJob =
           jobCount > 0
             ? filteredJobs.reduce((prev, curr) =>
-                prev.submitted_on > curr.submitted_on ? prev : curr
-              ).id
+              prev.submitted_on > curr.submitted_on ? prev : curr
+            ).id
             : null;
         const latestJobName = latestJob
           ? filteredJobs.filter((job) => job.id === latestJob)[0].name
