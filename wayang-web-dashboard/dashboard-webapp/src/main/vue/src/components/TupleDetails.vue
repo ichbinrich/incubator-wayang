@@ -41,7 +41,7 @@
                 <option value="10">10 Tuples</option>
                 <option value="25">20 Tuples</option>
                 <option value="25">50 Tuples</option>
-               
+
             </select>
         </div>
     </div>
@@ -182,9 +182,9 @@ export default {
             }
         },
         selectTuples() {
-    const count = parseInt(this.selectedTupleCount);
-    this.selectedTuples = this.tuples.slice(0, count);
-},
+            const count = parseInt(this.selectedTupleCount);
+            this.selectedTuples = this.tuples.slice(0, count);
+        },
 
         shouldDisplayTuple(tuple) {
             // Function to determine if a tuple should be displayed

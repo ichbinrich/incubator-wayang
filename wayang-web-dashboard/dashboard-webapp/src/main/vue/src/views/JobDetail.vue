@@ -52,7 +52,9 @@
     <div class="col-md-9">
       <!-- Job Plan Card -->
       <div class="card rounded-0">
-        <div class="card-header">Job Plan</div>
+        <div class="card-header">
+          <h6>Job Plan</h6>
+        </div>
         <div class="card-body">
           <h6>Right-click on the operator to select custom tags</h6>
           <JobPlan :graph="job.graph" :task_selected="task_id" :task_id="selectedTaskId" :code="codeContent"
@@ -78,7 +80,9 @@
       </div>
       <!-- Tuples Card -->
       <div class="card rounded-0 mt-4 py-0">
-        <div class="card-header">Tuples in Each Node Operator</div>
+        <div class="card-header">
+          <h6>Tuples in Each Node Operator</h6>
+        </div>
         <div class="card-body tuples-card">
           <HackitDebugger :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
         </div>
@@ -86,7 +90,9 @@
 
       <!-- Tuples details -->
       <div class="card rounded-0 mt-4 py-0">
-        <div class="card-header">Tuple Details</div>
+        <div class="card-header">
+          <h6>Tuple Details</h6>
+        </div>
         <div class="card-body tuples-card">
           <div v-if="job.hackit"></div>
           <TupleDetails :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
@@ -208,5 +214,4 @@ export default {
 
 .editable-input {
   width: 80px;
-}
-</style>
+}</style>
