@@ -54,8 +54,9 @@
     <div class="row"></div>
   </div>
   <!--codemirror IDE-->
-  <Codemirror ref="codeMirror" v-model:value="codeContent" :options="cmOptions" border
+  <Codemirror id="your-unique-codemirror" ref="codeMirror" v-model:value="codeContent" :options="cmOptions" border
     placeholder="Write your code here..." :style="{ height: '200px', fontSize: '17px' }" @change="change" />
+
   <div class="d-flex justify-content-end mt-2">
     <button type="button" class="btn btn-dark" style="margin-right: 10px; padding: 5px 10px" @click="saveCode">
       Save
@@ -123,17 +124,8 @@ export default {
       currentLanguage: "java",
       cmOptions: {
         mode: "text/x-java",
-        theme: "ambiance",
+        theme: "default",
         lineNumbers: true,
-        font: "'JetBrains Mono', monospace",
-        fontSize: "40px",
-        styleActiveLine: {
-          nonEmpty: true, // Enable styling for the active line
-          style: {
-            fontFamily: "Arial, monospace",
-            fontSize: "40px",
-          },
-        },
       },
     };
   },
@@ -344,6 +336,7 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 #cy {
   height: 200px;
@@ -352,9 +345,20 @@ export default {
   display: block;
 }
 
+/* Directly target the content of CodeMirror */
 .CodeMirror {
-  font-family: "Ubuntu Mono";
-  line-height: 1.2em;
-  height: 3.6em;
+  color: rgb(13, 13, 206);
+  /* This will change the default text color */
+}
+
+.cm-keyword {
+  color: rgb(55, 20, 226);
+  /* This will change the color of keywords */
+}
+
+
+.cm-string {
+  color: rgb(4, 100, 4);
+  /* This will change the color of strings */
 }
 </style>

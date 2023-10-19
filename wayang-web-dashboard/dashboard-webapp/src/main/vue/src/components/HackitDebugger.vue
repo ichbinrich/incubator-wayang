@@ -23,7 +23,7 @@
     <div v-if="isLoading">Loading...</div>
     <div v-else>
       <div class="filters mt-1 p-3">
-        <label for="task-select" class="p-2">Filter by Task ID: </label>
+        <label for="task-select" class="p-2">Filter by Task ID Operator: </label>
         <select id="task-select" v-model="selectedTask">
           <option value="">All</option>
           <option v-for="taskId in taskIds" :key="taskId" :value="taskId">
