@@ -46,7 +46,7 @@
     <input type="url" v-model="githubRepoURL" placeholder="https://github.com/your-repo" class="form-control"
       style="flex: none; width: 245px; margin-right: 15px" />
     <button @click="submitRepoURL" :disabled="isSubmitting" class="btn btn-secondary" style="padding: 5px 10px">
-      Submit
+      Load
     </button>
   </div>
   <p>{{ submissionMessage }}</p>

@@ -23,7 +23,7 @@
     <td>
       <div class="d-flex">
         <div class="ml-auto">
-          <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-magnifying-glass"
+          <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-exclamation-triangle"
             style="margin-left: -30px;" title="Monitor"></i>
           <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" class="fas fa-bug red-icon text-danger"
             style="margin-left: 5px;" title="Debug"></i>
