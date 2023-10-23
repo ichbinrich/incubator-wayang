@@ -667,7 +667,7 @@
           "timestamp": 1680179055000,
           "tuple_id": 1,
           "tags": [
-            "MONITOR"
+            "PAUSE"
           ]
         }
       }
@@ -691,8 +691,7 @@
           "timestamp": 1680179055040,
           "tuple_id": 2,
           "tags": [
-            "MONITOR",
-            "CUSTOM_TAG_1"
+            "PAUSE"
           ]
         }
       }
@@ -717,9 +716,8 @@
           "tuple_id": 3,
           "tags": [
             "MONITOR",
-            "DEBUG",
-            "CUSTOM_TAG_1",
-            "PAUSE"
+            "DEBUG"
+            
           ]
         }
       }
@@ -744,8 +742,7 @@
           "tuple_id": 4,
           "tags": [
             "MONITOR",
-            "DEBUG",
-            "CUSTOM_TAG_1"
+            "DEBUG"
           ]
         }
       }
@@ -769,7 +766,7 @@
           "timestamp": 1680179059000,
           "tuple_id": 5,
           "tags": [
-            "MONITOR"
+            "PAUSE"
           ]
         }
       }
@@ -793,7 +790,7 @@
           "timestamp": 1680179055000,
           "tuple_id": 12,
           "tags": [
-            "MONITOR"
+            "PAUSE"
           ]
         }
       }
@@ -817,8 +814,7 @@
           "timestamp": 1680179055040,
           "tuple_id": 22,
           "tags": [
-            "MONITOR",
-            "CUSTOM_TAG_1"
+            "PAUSE"
           ]
         }
       }
@@ -843,8 +839,7 @@
           "tuple_id": 32,
           "tags": [
             "MONITOR",
-            "DEBUG",
-            "CUSTOM_TAG_1"
+            "DEBUG"
           ]
         }
       }
@@ -869,8 +864,7 @@
           "tuple_id": 42,
           "tags": [
             "MONITOR",
-            "DEBUG",
-            "CUSTOM_TAG_1"
+            "DEBUG"
           ]
         }
       }
@@ -894,7 +888,7 @@
           "timestamp": 1680179059000,
           "tuple_id": 52,
           "tags": [
-            "MONITOR"
+            "PAUSE"
           ]
         }
       }
@@ -918,7 +912,7 @@
           "timestamp": 1680179055000,
           "tuple_id": 13,
           "tags": [
-            "MONITOR"
+            "PAUSE"
           ]
         }
       }
@@ -942,8 +936,7 @@
           "timestamp": 1680179055040,
           "tuple_id": 23,
           "tags": [
-            "MONITOR",
-            "CUSTOM_TAG_1"
+            "PAUSE"
           ]
         }
       }
@@ -968,8 +961,7 @@
           "tuple_id": 33,
           "tags": [
             "MONITOR",
-            "DEBUG",
-            "CUSTOM_TAG_1"
+            "DEBUG"
           ]
         }
       }
@@ -995,7 +987,7 @@
           "tags": [
             "MONITOR",
             "DEBUG",
-            "CUSTOM_TAG_1"
+            "CUSTOM-TAG"
           ]
         }
       }
@@ -1019,7 +1011,7 @@
           "timestamp": 1680179059000,
           "tuple_id": 53,
           "tags": [
-            "MONITOR"
+            "PAUSE"
           ]
         }
       }
@@ -1228,8 +1220,7 @@
           "timestamp": 1680179055040,
           "tuple_id": 2,
           "tags": [
-            "MONITOR",
-            "CUSTOM_TAG_1"
+            "MONITOR"
           ]
         }
       }
