@@ -131,11 +131,11 @@ export default {
   },
 
   mounted() {
-    const colors = ["green", "blue", "green"]; // green first node, blue second, third, fourth and last one green . 
+    const colors = ["green", "blue","blue", "green", "green"]; 
 
     const elements = {
-      nodes: this.graph.nodes.map((node) => {
-        const color = colors[Math.floor(Math.random() * colors.length)];
+      nodes: this.graph.nodes.map((node, index) => {
+        const color = colors[index % colors.length];
         return { ...node, style: { "background-color": color } };
       }),
       edges: this.graph.edges,
