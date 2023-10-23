@@ -17,21 +17,6 @@
   under the License.
   -->
 <template>
-    <!--div v-if="isLoading">Loading...</div>
-    <div v-else>
-        <div class="filters mt-1 p-3">
-            <label for="task-select" class="p-2">Filter by Task ID: </label>
-            <select id="task-select" v-model="selectedTask">
-                <option value="">All</option>
-                <option v-for="taskId in taskIds" :key="taskId" :value="taskId">{{ taskId }}</option>
-            </select>
-            <label for="tag-select" class="p-2">Filter by Tag:</label>
-            <select id="tag-select" v-model="selectedTag">
-                <option value="">All</option>
-                <option v-for="tag in uniqueTags" :key="tag" :value="tag">{{ tag }}</option>
-            </select>
-        </div!-->
-
     <div class="col-md-9 mt-4 py-2" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px">
         <h6>Select Tuples</h6>
         <div class="card-body">
@@ -41,7 +26,6 @@
                 <option value="10">10 Tuples</option>
                 <option value="25">20 Tuples</option>
                 <option value="25">50 Tuples</option>
-
             </select>
         </div>
     </div>
@@ -49,42 +33,46 @@
     <table class="table">
         <thead>
             <tr>
-                <th></th>
-                <th v-for="attribute in attributes" :key="attribute">{{ attribute }}</th>
+                <th>
+                <th>Tuple ID</th>
+                </th>
+                <th v-for="attribute in attributes" :key="attribute">
+                    {{ attribute }}
+                </th>
             </tr>
         </thead>
-
         <tbody>
+            <th v-for="attribute in attributes" :key="attribute"></th>
             <tr v-for="tuple in selectedTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
                 <td>
                     <div style="display: flex; align-items: center">
-                        <span style="margin-right: 10px; font-size: 14px">{{ tuple.hackit_tuple.metadata.tuple_id
-                        }}</span>
-                        <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-2"
-                            title="Edit">
+                        <span style="margin-right: 10px; font-size: 14px">{{ tuple.hackit_tuple.metadata.tuple_id }}</span>
+
+                        <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-3"
+                            title="Edit" v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1"
-                            :disabled="!isEditing(tuple)" title="Save">
+                        <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1 mr-3"
+                            v-if="isEditing(tuple)" title="Save">
                             Save
                         </button>
-                        <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-magnifying-glass"
-                            title="Monitor"></i>
                         <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')"
-                            class="fas fa-bug red-icon text-danger small-button" title="Debug"
+                            class="fas fa-bug red-icon text-danger small-button px-1 py-1 mr-3" title="Debug"
                             @click="debugTuple(tuple)"></i>
                     </div>
                 </td>
                 <td v-for="(attribute, index) in attributes" :key="attribute" class="editable-cell px-1 py-1">
                     <div v-if="isEditing(tuple)">
-                        <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]"
-                            class="form-control w-100 px-1 py-1" />
-
+                        <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]
+                            " class="form-control w-100 px-1 py-1" />
                     </div>
                     <div v-else>
                         <div class="column-value">
-                            {{ isEditing(tuple) ? editedData[tuple.hackit_tuple.metadata.tuple_id][attribute] :
-                                getTupleAttribute(tuple, attribute) }}
+                            {{
+                                isEditing(tuple)
+                                ? editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]
+                                : getTupleAttribute(tuple, attribute)
+                            }}
                         </div>
                     </div>
                 </td>
@@ -94,7 +82,6 @@
 </template>
 <script>
 import Tuple from "./Tuple.vue";
-
 
 export default {
     name: "TupleDetails",
@@ -138,22 +125,32 @@ export default {
         };
     },
 
-
     created() {
         this.fetchTuples();
-        this.addTestTuples();
         this.selectedColumns = this.attributes;
-        this.selectTuples();
+
+        // Add this code to set selectedTuples initially
+        if (this.tuples.length > 0) {
+            this.selectedTuples = this.tuples.slice(0, this.selectedTupleCount);
+        }
+        this.selectTuples(); // Call selectTuples after fetching the tuples.
     },
+
     watch: {
         taskId: "filterTuples",
         hackitAction: "hackitActionRun",
     },
     computed: {
         otherTuples() {
-            return this.tuples.filter((tuple) => tuple.hackit_tuple.metadata.tuple_id !== "1");
+            return this.tuples.filter(
+                (tuple) => tuple.hackit_tuple.metadata.tuple_id !== "1"
+            );
         },
     },
+    mounted() {
+        this.selectTuples(); // Call selectTuples when the component is mounted
+    },
+
     methods: {
         async fetchTuples() {
             try {
@@ -174,6 +171,9 @@ export default {
                     this.tuples = otherTuples.filter(
                         (tuple) => tuple.hackit_tuple.metadata.tuple_id !== "1"
                     );
+
+                    // Set selectedTuples with the initial 5 tuples
+                    this.selectedTuples = this.tuples.slice(0, this.selectedTupleCount);
                 }
             } catch (error) {
                 console.error("Error fetching tuples:", error);
@@ -181,6 +181,7 @@ export default {
                 this.isLoading = false;
             }
         },
+
         selectTuples() {
             const count = parseInt(this.selectedTupleCount);
             this.selectedTuples = this.tuples.slice(0, count);
@@ -188,9 +189,11 @@ export default {
 
         shouldDisplayTuple(tuple) {
             // Function to determine if a tuple should be displayed
-            return tuple.hackit_tuple.metadata.tuple_id !== "1" && this.tuplesToDisplay.includes(tuple);
+            return (
+                tuple.hackit_tuple.metadata.tuple_id !== "1" &&
+                this.tuplesToDisplay.includes(tuple)
+            );
         },
-
 
         getValueForColumn(tupleId, column) {
             // Find the first tuple with the specified ID and return the value for the given column
@@ -221,8 +224,6 @@ export default {
             this.selectedTask = this.taskId;
         },
 
-
-
         editRow(tuple) {
             if (!this.editedData[tuple.hackit_tuple.metadata.tuple_id]) {
                 this.editedData[tuple.hackit_tuple.metadata.tuple_id] = {};
@@ -244,12 +245,18 @@ export default {
         },
 
         saveCell(tupleId, attribute) {
-            const tuple = this.tuples.find((t) => t.hackit_tuple.metadata.tuple_id === tupleId);
+            const tuple = this.tuples.find(
+                (t) => t.hackit_tuple.metadata.tuple_id === tupleId
+            );
 
-            if (tuple && this.editedData[tupleId] && this.editedData[tupleId][attribute] !== undefined) {
-                tuple.hackit_tuple.wayang_tuple[attribute] = this.editedData[tupleId][attribute];
+            if (
+                tuple &&
+                this.editedData[tupleId] &&
+                this.editedData[tupleId][attribute] !== undefined
+            ) {
+                tuple.hackit_tuple.wayang_tuple[attribute] =
+                    this.editedData[tupleId][attribute];
             }
-
         },
 
         saveChanges(tupleId, colIndex) {
@@ -298,7 +305,10 @@ export default {
         },
 
         toggleEditRow(tuple) {
-            if (!this.isEditing(tuple)) {
+            if (
+                !this.isEditing(tuple) &&
+                tuple.hackit_tuple.metadata.tags.includes("DEBUG")
+            ) {
                 // Enable editing for this row
                 this.enableEditRow(tuple);
             } else {
@@ -306,6 +316,7 @@ export default {
                 this.disableEditRow(tuple);
             }
         },
+
         editRow(tuple) {
             if (!this.editedData[tuple.hackit_tuple.metadata.tuple_id]) {
                 this.editedData[tuple.hackit_tuple.metadata.tuple_id] = {};
@@ -328,7 +339,9 @@ export default {
                 // For now, we'll just update the local data
                 this.selectedColumns.forEach((column) => {
                     const editedValue = this.editedData[tupleId][column];
-                    const tuple = this.tuples.find((t) => t.hackit_tuple.metadata.tuple_id === tupleId);
+                    const tuple = this.tuples.find(
+                        (t) => t.hackit_tuple.metadata.tuple_id === tupleId
+                    );
                     if (tuple) {
                         tuple.hackit_tuple.wayang_tuple[column] = editedValue;
                     }
@@ -344,7 +357,6 @@ export default {
                 this.showSnackBarMessage(`Tuple ${tupleId} saved successfully.`);
             }
         },
-
 
         showSnackBarMessage(message) {
             this.snackBar.message = message;
@@ -369,7 +381,8 @@ export default {
 
             // Initialize edited data with current values
             this.attributes.forEach((attribute) => {
-                this.editedData[tuple.hackit_tuple.metadata.tuple_id][attribute] = this.getTupleAttribute(tuple, attribute);
+                this.editedData[tuple.hackit_tuple.metadata.tuple_id][attribute] =
+                    this.getTupleAttribute(tuple, attribute);
             });
         },
 
@@ -381,11 +394,10 @@ export default {
         getTupleAttribute(tuple, attribute) {
             if (tuple && tuple.hackit_tuple && tuple.hackit_tuple.wayang_tuple) {
                 const value = tuple.hackit_tuple.wayang_tuple[attribute];
-                return value !== undefined ? value : '-';
+                return value !== undefined ? value : "-";
             }
-            return '-';
-        }
-
+            return "-";
+        },
     },
 };
 </script>

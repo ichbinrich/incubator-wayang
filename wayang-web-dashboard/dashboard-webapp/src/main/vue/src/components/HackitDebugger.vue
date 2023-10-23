@@ -46,7 +46,6 @@
             <tr>
               <th class="col-4">Tuple ID</th>
               <th style="text-align: left" class="col-6">HackIT Tags</th>
-              <th class="text-center col-2"></th>
             </tr>
           </thead>
         </table>

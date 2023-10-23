@@ -80,20 +80,21 @@
       </div>
       <!-- Tuples Card -->
       <div class="card rounded-0 mt-4 py-0">
-        <div class="card-header">
-          <h6>Tuples in Each Node Operator</h6>
-        </div>
-        <div class="card-body tuples-card">
-          <HackitDebugger :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
-        </div>
-      </div>
+  <div class="card-header">
+    <h6>Tuples in Each Node Operator</h6>
+  </div>
+  <div class="card-body">
+    <HackitDebugger :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" style="max-height: 400px; overflow: auto;" />
+  </div>
+</div>
+
 
       <!-- Tuples details -->
       <div class="card rounded-0 mt-4 py-0">
         <div class="card-header">
           <h6>Tuple Details</h6>
         </div>
-        <div class="card-body tuples-card">
+        <div class="card-body">
           <div v-if="job.hackit"></div>
           <TupleDetails :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
         </div>
@@ -206,12 +207,15 @@ export default {
 
 <style scoped>
 .tuples-card {
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 400px;
+  /* Set a fixed height */
+  overflow: auto;
+  /* Allow scrolling */
   padding: 0;
 }
 
+
 .editable-input {
   width: 80px;
-}</style>
+}
+</style>

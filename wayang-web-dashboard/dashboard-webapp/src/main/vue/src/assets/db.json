@@ -718,7 +718,8 @@
           "tags": [
             "MONITOR",
             "DEBUG",
-            "CUSTOM_TAG_1"
+            "CUSTOM_TAG_1",
+            "PAUSE"
           ]
         }
       }

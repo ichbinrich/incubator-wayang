@@ -23,10 +23,17 @@
     <td>
       <div class="d-flex">
         <div class="ml-auto">
+    
           <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-exclamation-triangle"
             style="margin-left: -30px;" title="Monitor"></i>
+          
           <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" class="fas fa-bug red-icon text-danger"
             style="margin-left: 5px;" title="Debug"></i>
+               
+          <!--i v-if="tuple.hackit_tuple.metadata.tags.includes('PAUSE')" class="fa-sharp fa-solid fa-circle-pause"
+            style="margin-left: -30px;" title="Pause"></i!-->
+                    
+         
         </div>
       </div>
     </td>

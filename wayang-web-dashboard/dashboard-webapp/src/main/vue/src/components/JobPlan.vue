@@ -131,7 +131,7 @@ export default {
   },
 
   mounted() {
-    const colors = ["blue", "green", "orange"];
+    const colors = ["green", "blue", "green"]; // green first node, blue second, third, fourth and last one green . 
 
     const elements = {
       nodes: this.graph.nodes.map((node) => {
