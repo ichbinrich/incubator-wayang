@@ -24,8 +24,8 @@
         <li class="nav-item dropdown">
           <a class="btn btn-outline-secondary dropdown-toggle rounded-0 border-0" href="#" role="button"
             id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" :class="activeRoute === 'JobList'
-                ? 'btn-secondary'
-                : 'btn-outline-secondary'
+              ? 'btn-secondary'
+              : 'btn-outline-secondary'
               ">
             Jobs
           </a>
@@ -57,8 +57,8 @@
         </div>
         <div class="card-body">
           <h6>Right-click on the operator to select custom tags</h6>
-          <JobPlan :graph="job.graph" :task_selected="task_id" :task_id="selectedTaskId" :code="codeContent"
-            v-if="job.graph" @highlight-node="highlightNode" @task-selected="handleTaskSelected">
+          <JobPlan :graph="job.graph" :node-status="nodeStatus" :task_selected="task_id" :task_id="selectedTaskId"
+            :code="codeContent" v-if="job.graph" @highlight-node="highlightNode" @task-selected="handleTaskSelected">
           </JobPlan>
           <div class="alert alert-warning" role="alert" v-else>
             No job plan available
@@ -138,6 +138,13 @@ export default {
       selectedTupleIndex: 0,
       selectedOperatorIndex: 0,
     };
+  },
+
+  props: {
+    nodeStatus: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   computed: {
     hasValidTask() {

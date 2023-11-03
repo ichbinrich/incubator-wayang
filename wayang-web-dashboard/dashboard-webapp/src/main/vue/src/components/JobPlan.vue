@@ -21,24 +21,29 @@
   <!-- Graph Display -->
   <div id="cy"></div>
   <!--Wayang Programming Languages-->
+
   <div class="container-fluid mt-3 mb-3">
     <div class="row">
       <div class="col-md-8 d-flex align-items-center">
         <div class="d-flex align-items-center mb-1">
           <span class="bg-warning rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
-          Java
+          <!-- Only apply the class if isJavaColorCorrect is false -->
+          <div :class="{ 'text-secondary opacity-50': !isJavaPresent }">Java</div>
         </div>
         <div class="d-flex align-items-center mb-1 mx-2">
           <span class="bg-primary rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
-          Spark
+          <!-- Only apply the class if isSparkColorCorrect is false -->
+          <div :class="{ 'text-secondary opacity-50': isSparkPresent }">Spark</div>
         </div>
         <div class="d-flex align-items-center mb-1">
           <span class="bg-success rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
-          PostgreSQL
+          <!-- Only apply the class if isPostgreSQLColorCorrect is false -->
+          <div :class="{ 'text-secondary opacity-50': isPostgreSQLPresent }">PostgreSQL</div>
         </div>
       </div>
     </div>
   </div>
+
   <!--Github repository-->
   <div class="d-flex align-items-center mt-3">
     <h6 class="mb-0 mr-2"></h6>
@@ -109,7 +114,9 @@ export default {
     graph: Object,
     task_id: String,
     code: String,
+
   },
+
   data() {
     return {
       selectedTaskId: null,
@@ -121,6 +128,20 @@ export default {
       githubRepoURL: "",
       submissionMessage: "",
       isSubmitting: false,
+      nodeStatus: {
+        java: {
+          available: true,
+          color: 'yellow'
+        },
+        spark: {
+          available: true,
+          color: 'blue'
+        },
+        postgreSQL: {
+          available: true,
+          color: 'green'
+        },
+      },
       currentLanguage: "java",
       cmOptions: {
         mode: "text/x-java",
@@ -128,6 +149,18 @@ export default {
         lineNumbers: true,
       },
     };
+  },
+  computed: {
+    // These will depend on your actual data structure
+    isJavaPresent() {
+      return this.graph.nodes.some(node => node.id === 'java' || node.type === 'java');
+    },
+    isSparkPresent() {
+      return this.graph.nodes.some(node => node.id === 'spark' || node.type === 'spark');
+    },
+    isPostgreSQLPresent() {
+      return this.graph.nodes.some(node => node.id === 'postgresql' || node.type === 'postgresql');
+    },
   },
 
   mounted() {
@@ -206,10 +239,7 @@ export default {
     });
 
     this.$eventBus.on("next-operator-clicked", () => {
-      // Implement the logic for handling the 'next-operator-clicked' event here
-      // This is where you can respond to the button click.
 
-      // Increment the selectedNodeIndex to move to the next node operator
       this.selectedNodeIndex++;
 
       // Ensure the index stays within bounds
@@ -238,6 +268,8 @@ export default {
           },
           hasTrailingDivider: true,
         },
+
+
         {
           id: "add-posttag",
           content: "Add PostTAG",
@@ -253,11 +285,7 @@ export default {
   },
 
   methods: {
-    showModalForTask(taskId) {
-      this.showModal = true;
-      this.modalTitle = "Edit Task";
-      this.codeContent = "";
-    },
+
     showCodeEditor(tagType) {
       this.showModal = true;
       this.modalTitle = `Run Selected tag : ${tagType}`;
