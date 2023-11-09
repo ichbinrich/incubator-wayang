@@ -19,22 +19,14 @@
 <!-- Inside the Tuple component template -->
 <template>
   <tr class="tuple">
-    <td class="text-right pr-4" style="padding-right: 10px;">{{ tuple.hackit_tuple.metadata.tuple_id }}</td>
-    <td>
-      <div class="d-flex">
-        <div class="ml-auto">
-
-          <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-exclamation-triangle"
-            style="margin-left: -30px;" title="Monitor"></i>
-
-          <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" class="fas fa-bug red-icon text-danger"
-            style="margin-left: 5px;" title="Debug"></i>
-
-          <i v-if="tuple.hackit_tuple.metadata.tags.includes('PAUSE')" class="fa-sharp fa-solid fa-circle-pause"
-            style="margin-left: -30px;" title="Pause"></i>
-
-
-        </div>
+    <!-- Use text-center to align the text to the center -->
+    <td class="text-center">{{ tuple.hackit_tuple.metadata.tuple_id }}</td>
+    <td class="text-center">
+      <div class="d-flex justify-content-center">
+        <!-- Icons with tooltips, centered with the flex utility -->
+        <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-exclamation-triangle" title="Monitor"></i>
+        <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" class="fas fa-bug red-icon text-danger" title="Debug"></i>
+        <i v-if="tuple.hackit_tuple.metadata.tags.includes('PAUSE')" class="fa-sharp fa-solid fa-circle-pause" title="Pause"></i>
       </div>
     </td>
     <td>

@@ -17,60 +17,65 @@
   under the License.
   -->
 <template>
-  <!---Tuples - Filter by task ID-->
-  
   <div class="hackit-debugger">
     <div v-if="isLoading">Loading...</div>
     <div v-else>
       <div class="filters mt-1 p-3">
-        <label for="task-select" class="p-2">Filter by Task ID Operator: </label>
-        <select id="task-select" v-model="selectedTask">
-          <option value="">All</option>
-          <option v-for="taskId in taskIds" :key="taskId" :value="taskId">
-            {{ taskId }}
-          </option>
-        </select>
-        <label for="tag-select" class="p-2">Filter by Tag:</label>
-        <select id="tag-select" v-model="selectedTag">
-          <option value="">All</option>
-          <option v-for="tag in uniqueTags" :key="tag" :value="tag">
-            {{ tag }}
-          </option>
-        </select>
-
-
+        <div class="row">
+          <!-- Align the label and select in a centered column -->
+          <div class="col-6 col-md-4 d-flex justify-content-center">
+            <div class="text-center">
+              <label for="task-select" class="form-label">Filter by Task ID</label>
+              <select id="task-select" class="form-select" v-model="selectedTask">
+                <option value="">All</option>
+                <option v-for="taskId in taskIds" :key="taskId" :value="taskId">
+                  {{ taskId }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-6 col-md-8 d-flex justify-content-center">
+            <div class="text-center">
+              <label for="tag-select" class="form-label">Filter by Tag</label>
+              <select id="tag-select" class="form-select" v-model="selectedTag">
+                <option value="">All</option>
+                <option v-for="tag in uniqueTags" :key="tag" :value="tag">
+                  {{ tag }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-      <table class="table table-borderless mb-0">
+      <div class="table-responsive">
         <table class="table table-borderless mb-0">
+        <!--table class="table table-borderless mb-0" ref="hackitTable"-->
           <thead>
             <tr>
-              <th class="col-4">Tuple ID</th>
-              <th style="text-align: left" class="col-6">HackIT Tags</th>
+              <!-- Use text-center to align the text at the center -->
+              <th class="col-6 col-md-4 text-center">Tuple ID</th>
+              <th class="col-6 col-md-8 text-center">HackIT Tags</th>
             </tr>
           </thead>
-        </table>
-      </table>
-      <div class="table-body-container overflow-auto" style="max-height: 400px">
-        <table class="table table-borderless mb-0">
           <tbody v-if="filteredTuples.length > 0">
+            <!-- Make sure the Tuple component also centers its content -->
             <Tuple v-for="(tuple, index) in filteredTuples" :key="index" :tuple="tuple" />
-
-            
           </tbody>
         </table>
       </div>
-      <div class="col-6 p-2">
-        <div class="alert alert-warning mt-3 px-1 text-left" style="width: 1180px" role="alert"
-          v-if="filteredTuples.length === 0">
-          <h6 class="p-2">No tuples available in this task</h6>
-        </div>
+      <div v-if="filteredTuples.length === 0" class="alert alert-warning mt-3" role="alert">
+        <h6 class="p-2">No tuples available in this task</h6>
       </div>
     </div>
   </div>
 </template>
+  
 
 <script>
 import Tuple from "./Tuple.vue";
+import $ from 'jquery';
+import 'datatables.net';
+import 'datatables.net-dt/css/jquery.dataTables.min.css';
 
 export default {
   name: "HackitDebugger",
@@ -152,7 +157,29 @@ export default {
       return Array.from(tags);
     },
   },
+
+  mounted() {
+    this.fetchTuples();
+  },
+
   methods: {
+
+    initializeDataTables() {
+      this.$nextTick(() => {
+        // Destroy existing DataTables instance to reinitialize
+        if ($.fn.dataTable.isDataTable(this.$refs.hackitTable)) {
+          $(this.$refs.hackitTable).DataTable().destroy();
+        }
+
+        // Initialize DataTables
+        $(this.$refs.hackitTable).DataTable({
+          // DataTables options
+          responsive: true,
+          paging: true,
+          searching: false, // Disable DataTables search if using Vue filters
+        });
+      });
+    },
     async fetchTuples() {
       try {
         const response = await fetch(
@@ -165,6 +192,7 @@ export default {
         console.error("Error fetching tuples:", error);
       } finally {
         this.isLoading = false;
+        this.initializeDataTables();
       }
     },
 
@@ -226,8 +254,13 @@ export default {
     },
     filterTuples() {
       this.selectedTask = this.taskId;
+      this.initializeDataTables();
     },
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.tuple-cell {
+  text-align: center;
+}
+</style>

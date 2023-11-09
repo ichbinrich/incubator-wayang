@@ -22,14 +22,14 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title" id="modalTitle">Tuple Details </h6>
+          <h6 class="modal-title" id="modalTitle"> </h6>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <table class="table">
             <tbody>
               <tr>
-                <th style="border: none;">Tuple ID</th>
+                
                 <td style="border: none;">
                   <input id="tuple_id" :value="tuple.hackit_tuple.metadata.tuple_id" disabled readonly
                     class="form-control" />

@@ -17,90 +17,86 @@
   under the License.
   -->
 <template>
-  <div class="row p-3">
-    <div class="col-2 justify-content-end">
-      <ul class="navbar-nav ms-auto p-3">
-        <!-- Dropdown for Jobs -->
-        <li class="nav-item dropdown">
-          <a class="btn btn-outline-secondary dropdown-toggle rounded-0 border-0" href="#" role="button"
-            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" :class="activeRoute === 'JobList'
-              ? 'btn-secondary'
-              : 'btn-outline-secondary'
-              ">
-            Jobs
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li>
-              <router-link to="/jobs/wordcount" class="dropdown-item">Wordcount</router-link>
-            </li>
-            <li>
-              <router-link to="/jobs/join-query" class="dropdown-item">Join Query</router-link>
-            </li>
-            <li>
-              <router-link to="/jobs/classification" class="dropdown-item">Classification</router-link>
-            </li>
-            <li>
-              <router-link to="/jobs/clustering" class="dropdown-item">Clustering</router-link>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="row py-1">
-    <div class="col-md-3"></div>
-    <div class="col-md-9">
-      <!-- Job Plan Card -->
-      <div class="card rounded-0">
-        <div class="card-header">
-          <h6>Job Plan</h6>
-        </div>
-        <div class="card-body">
-          <h6>Right-click on the operator to select custom tags</h6>
-          <JobPlan :graph="job.graph" :node-status="nodeStatus" :task_selected="task_id" :task_id="selectedTaskId"
-            :code="codeContent" v-if="job.graph" @highlight-node="highlightNode" @task-selected="handleTaskSelected">
-          </JobPlan>
-          <div class="alert alert-warning" role="alert" v-else>
-            No job plan available
+  <div class="container-fluid margin-adjust">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <!-- Dropdown for Jobs -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle bg-white text-dark" href="#" id="navbarJobDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Jobs
+            </a>
+            <ul class="dropdown-menu bg-white" aria-labelledby="navbarJobDropdown">
+              <li><router-link to="/jobs/wordcount" class="dropdown-item">Wordcount</router-link></li>
+              <li><router-link to="/jobs/join-query" class="dropdown-item">Join Query</router-link></li>
+              <li><router-link to="/jobs/classification" class="dropdown-item">Classification</router-link></li>
+              <li><router-link to="/jobs/clustering" class="dropdown-item">Clustering</router-link></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Job Plan Section -->
+    <div class="row justify-content-center py-3">
+      <div class="col-12 col-md-10 col-lg-8 mx-auto offset-md-1">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h6>Job Plan</h6>
+          </div>
+          <div class="card-body">
+            <h6>Right-click on the operator to select custom tags</h6>
+            <JobPlan :graph="job.graph" :node-status="nodeStatus" :task_selected="task_id" :task_id="selectedTaskId"
+              :code="codeContent" v-if="job.graph" @highlight-node="highlightNode" @task-selected="handleTaskSelected">
+            </JobPlan>
+            <div v-else class="alert alert-warning">No job plan available</div>
           </div>
         </div>
       </div>
-      <div class="container mt-4">
-        <div class="row">
-          <div class="col-md-6"></div>
+    </div>
+
+    <!-- Debugger Section -->
+    <div class="row justify-content-center py-3" v-if="job.hackit">
+      <div class="col-12 col-md-10 col-lg-8 mx-auto offset-md-1">
+        <HackitControls @next-tuple="nextTuple" :nextNodeId="nextNodeId" :codeMirrorRef="codeMirrorRef"
+          @next-operator-clicked="handleNextOperatorClicked" />
+
+      </div>
+    </div>
+
+    <!-- Tuples Card -->
+    <div class="row justify-content-center py-3">
+      <div class="col-12 col-md-10 col-lg-8 mx-auto offset-md-1">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h6>Tuples in Each Node Operator</h6>
+          </div>
+          <div class="card-body">
+            <HackitDebugger @update:selectedTaskId="selectedTaskId = $event" :hackitAction="hackitAction" :jobId="jobId"
+              :taskId="task_id" style="max-height: 400px; overflow: auto" />
+          </div>
         </div>
       </div>
-      <div class="col-md-6 offset-md-1 mt-3">
-        <div id="hackit-debugger" v-if="job.hackit">
-          <HackitControls @next-tuple="nextTuple" :nextNodeId="nextNodeId" :codeMirrorRef="codeMirrorRef"
-            @next-operator-clicked="handleNextOperatorClicked" />
-          <div class="container"></div>
-          <div class="col-md-6 mt-3 mb-3"></div>
-        </div>
-      </div>
-      <!-- Tuples Card -->
-      <div class="card rounded-0 mt-4 py-0">
-        <div class="card-header">
-          <h6>Tuples in Each Node Operator</h6>
-        </div>
-        <div class="card-body">
-          <HackitDebugger :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id"
-            style="max-height: 400px; overflow: auto" />
-        </div>
-      </div>
-      <!-- Tuples details -->
-      <div class="card rounded-0 mt-4 py-0">
-        <div class="card-header">
-          <h6>Tuple Details</h6>
-        </div>
-        <div class="card-body">
-          <div v-if="job.hackit"></div>
-          <TupleDetails :hackitAction="hackitAction" :jobId="jobId" :taskId="task_id" />
+    </div>
+
+    <!-- Tuple Details -->
+    <div class="row justify-content-center py-3">
+      <div class="col-12 col-md-10 col-lg-8 mx-auto offset-md-1">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h6>Tuple Details</h6>
+          </div>
+          <div class="card-body">
+            <TupleDetails :selectedTupleCountFromFirstComponent="filteredTupleCount" :hackitAction="hackitAction"
+              :jobId="jobId" :taskId="selectedTaskId" />
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import HackitDebugger from "@/components/HackitDebugger.vue";
@@ -131,6 +127,7 @@ export default {
       codeContent: "",
       nextNodeId: null,
       selectedColumns: [],
+      selectedTaskIds: null,
       snackBar: {
         show: false,
         message: "",
@@ -212,15 +209,17 @@ export default {
 </script>
 
 <style scoped>
-.tuples-card {
-  height: 400px;
-  /* Set a fixed height */
-  overflow: auto;
-  /* Allow scrolling */
-  padding: 0;
+/* Add a class for your centered content */
+.centered-content {
+  position: relative;
+  left: 100%;
+  transform: translateX(-50%);
 }
 
-.editable-input {
-  width: 80px;
+/* Alternatively, if you prefer to use a margin for slight adjustments */
+.margin-adjust {
+  margin-left: 20%;
+  padding-right:10%;
+  /* Adjust the percentage as necessary */
 }
 </style>

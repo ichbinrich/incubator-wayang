@@ -17,71 +17,105 @@
   under the License.
   -->
 <template>
-  <h2 class="my-3"></h2>
-  <!-- Graph Display -->
-  <div id="cy"></div>
-  <!--Wayang Programming Languages-->
-
-  <div class="container-fluid mt-3 mb-3">
-    <div class="row">
-      <div class="col-md-8 d-flex align-items-center">
+  <div class="container-fluid my-3">
+    <!-- Graph Display -->
+    <div id="cy"></div>
+    <!-- Wayang Programming Languages -->
+    <div class="row mb-3">
+      <div class="col-12 col-md-8 d-flex flex-wrap align-items-center">
         <div class="d-flex align-items-center mb-1">
-          <span class="bg-warning rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
-          <!-- Only apply the class if isJavaColorCorrect is false -->
+          <span class="bg-warning rounded me-2" style="width: 20px; height: 20px;"></span>
           <div :class="{ 'text-secondary opacity-50': !isJavaPresent }">Java</div>
         </div>
         <div class="d-flex align-items-center mb-1 mx-2">
-          <span class="bg-primary rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
-          <!-- Only apply the class if isSparkColorCorrect is false -->
+          <span class="bg-primary rounded me-2" style="width: 20px; height: 20px;"></span>
           <div :class="{ 'text-secondary opacity-50': isSparkPresent }">Spark</div>
         </div>
         <div class="d-flex align-items-center mb-1">
-          <span class="bg-success rounded" style="width: 20px; height: 20px; margin-right: 10px"></span>
-          <!-- Only apply the class if isPostgreSQLColorCorrect is false -->
+          <span class="bg-success rounded me-2" style="width: 20px; height: 20px;"></span>
           <div :class="{ 'text-secondary opacity-50': isPostgreSQLPresent }">PostgreSQL</div>
         </div>
       </div>
     </div>
-  </div>
+    <!-- Github repository -->
+    <div class="row mb-3 align-items-center">
+      <div class="col-12 col-lg-6 col-xl-5">
+        <div class="input-group">
+          <span class="input-group-text"><i class="fab fa-github"></i></span>
+          <input type="url" v-model="githubRepoURL" placeholder="https://github.com/your-repo" class="form-control" />
+          <button @click="submitRepoURL" :disabled="isSubmitting" class="btn btn-secondary">Load</button>
+        </div>
+        <p>{{ submissionMessage }}</p>
+      </div>
+    </div>
+    <!-- Codemirror IDE -->
+    <div class="row mb-2">
+      <div class="col">
+        <Codemirror id="your-unique-codemirror" ref="codeMirror" v-model:value="codeContent" :options="cmOptions" border
+          placeholder="Write your code here..." :style="{ height: '200px', fontSize: '17px' }" @change="change" />
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-dark me-2" @click="saveCode">
+        Save
+      </button>
+      <button type="button" class="btn btn-primary" @click="executeCode">
+        <i class="fa fa-play"></i> Run
+      </button>
+    </div>
 
-  <!--Github repository-->
-  <div class="d-flex align-items-center mt-3">
-    <h6 class="mb-0 mr-2"></h6>
-    <i class="fab fa-github fa-2x mr-2" style="padding-right: 10px"></i>
-    <input type="url" v-model="githubRepoURL" placeholder="https://github.com/your-repo" class="form-control"
-      style="flex: none; width: 245px; margin-right: 15px" />
-    <button @click="submitRepoURL" :disabled="isSubmitting" class="btn btn-secondary" style="padding: 5px 10px">
-      Load
-    </button>
-  </div>
-  <p>{{ submissionMessage }}</p>
-  <div class="container">
-    <div class="row"></div>
-  </div>
-  <!--codemirror IDE-->
-  <Codemirror id="your-unique-codemirror" ref="codeMirror" v-model:value="codeContent" :options="cmOptions" border
-    placeholder="Write your code here..." :style="{ height: '200px', fontSize: '17px' }" @change="change" />
-
-  <div class="d-flex justify-content-end mt-2">
-    <button type="button" class="btn btn-dark" style="margin-right: 10px; padding: 5px 10px" @click="saveCode">
-      Save
-    </button>
-    <button type="button" class="btn btn-primary" @click="executeCode">
-      <i class="fa fa-play"></i> Run
-    </button>
-  </div>
-  <!--Tags-->
-  <div>
-    <h6>Select Predefined Tags</h6>
-    <div class="d-flex flex-wrap gap-2">
-      <div class="form-check" v-for="(tag, index) in tags" :key="index">
-        <input type="checkbox" class="form-check-input" :id="`tag-${index}`" :value="tag" v-model="selectedTags" />
-        <label class="form-check-label" :for="`tag-${index}`">{{ tag }}</label>
+    <!-- Tags -->
+    <div class="mt-3">
+      <h6>Select Predefined Tags</h6>
+      <div class="d-flex flex-wrap gap-2">
+        <div class="form-check" v-for="(tag, index) in tags" :key="index">
+          <input type="checkbox" class="form-check-input" :id="`tag-${index}`" :value="tag" v-model="selectedTags" />
+          <label class="form-check-label" :for="`tag-${index}`">{{ tag }}</label>
+        </div>
       </div>
     </div>
   </div>
-</template>
+  <!-- Modal -->
+  <div v-if="isModalVisible" class="modal" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Code Saved</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="toggleModal(false)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Your code has been successfully saved.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="toggleModal(false)">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="tagAlertModal" tabindex="-1" role="dialog" aria-labelledby="tagAlertModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tagAlertModalLabel">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Please select at least one tag before running the code.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+</template>
+  
 <script>
 import cytoscape from "cytoscape";
 import contextMenus from "cytoscape-context-menus";
@@ -120,13 +154,13 @@ export default {
   data() {
     return {
       selectedTaskId: null,
-      showModal: true,
       modalTitle: "",
       codeContent: "",
       tags: ["Alert", "Debug", "Pause", "Skip"],
       selectedTags: [],
       githubRepoURL: "",
       submissionMessage: "",
+      isModalVisible: false,
       isSubmitting: false,
       nodeStatus: {
         java: {
@@ -322,6 +356,7 @@ export default {
       }
     },
 
+
     executeCode() {
       console.log("Running code...");
     },
@@ -329,13 +364,49 @@ export default {
     closeModal() {
       this.showModal = false;
     },
-
     saveCode() {
-      console.log(this.codeContent);
-      this.closeModal();
+      // Check if any tags are selected
+      if (this.selectedTags.length === 0) {
+        alert('Please select at least one tag before saving.');
+        return; // Exit the function if no tags are selected
+      }
+
+      // Log the code and tags to the console
+      console.log('Saving code:', this.codeContent);
+      console.log('With tags:', this.selectedTags);
+
+      // Save the code and tags to localStorage
+      localStorage.setItem('userCode', this.codeContent);
+      localStorage.setItem('userTags', JSON.stringify(this.selectedTags));
+
+      // Show the success modal
+      this.toggleModal(true);
+
+      // Optional: Automatically hide the modal after 3 seconds
+      setTimeout(() => {
+        this.toggleModal(false);
+      }, 3000);
     },
+
+
+    toggleModal(show) {
+      this.isModalVisible = show;
+    },
+
     clearCodeMirror() {
       this.codeContent = ""; // Set the content to an empty string to clear it
+    },
+
+    executeCode() {
+      // Check if any tags are selected
+      const selectedTags = document.querySelectorAll('.tagCheckbox:checked');
+      if (selectedTags.length === 0) {
+        // No tags selected, show Bootstrap alert modal
+        $('#tagAlertModal').modal('show');
+      } else {
+        // Tags are selected, proceed with running the code
+        // Add your code execution logic here
+      }
     },
 
     async submitRepoURL() {

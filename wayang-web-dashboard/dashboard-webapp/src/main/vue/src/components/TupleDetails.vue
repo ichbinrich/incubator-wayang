@@ -16,72 +16,76 @@
   specific language governing permissions and limitations
   under the License.
   -->
-<template>
-    <div class="col-md-9 mt-4 py-2" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px">
-        <h6>Select Tuples</h6>
-        <div class="card-body">
-            <!-- Dropdown for selecting the number of tuples -->
-            <select v-model="selectedTupleCount" @change="selectTuples">
-                <option value="5">5 Tuples</option>
-                <option value="10">10 Tuples</option>
-                <option value="25">20 Tuples</option>
-                <option value="25">50 Tuples</option>
-            </select>
+  <template>
+  <div class="container mt-4">
+        <div class="row">
+            <div class="col-12 col-md-9 py-2 d-flex align-items-center">
+                <h6 class="mb-0 mr-3">Select Tuples</h6>
+                <!-- Dropdown for selecting the number of tuples -->
+                <select v-model="selectedTupleCount" @change="selectTuples" class="form-select form-select-sm" style="width: 150px;"> 
+                    <option value="5">5 Tuples</option>
+                    <option value="10">10 Tuples</option>
+                    <option value="20">20 Tuples</option>
+                    <option value="50">50 Tuples</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="example">
+                <thead>
+                    <tr>
+                        <th>Tuple ID</th>
+                        <th v-for="attribute in attributes" :key="attribute">
+                            {{ attribute }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="tuple in selectedTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <span class="mr-2">{{ tuple.hackit_tuple.metadata.tuple_id }}</span>
+
+                                <button v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')"
+                                    @click="toggleEditRow(tuple)" class="btn btn-secondary btn-sm px-2 py-1 mr-2"
+                                    title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button v-if="isEditing(tuple)" @click="saveRow(tuple)"
+                                    class="btn btn-primary btn-sm px-2 py-1 mr-2" title="Save">
+                                    Save
+                                </button>
+                                <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" @click="debugTuple(tuple)"
+                                    class="fas fa-bug text-danger btn-sm px-2 py-1 mr-2" title="Debug"></i>
+                            </div>
+                        </td>
+                        <td v-for="(attribute, index) in attributes" :key="attribute" class="px-2 py-1">
+                            <div v-if="isEditing(tuple)">
+                                <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]"
+                                    class="form-control form-control-sm" />
+                            </div>
+                            <div v-else>
+                                <span class="column-value">
+                                    {{ getTupleAttribute(tuple, attribute) }}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                <th>Tuple ID</th>
-                </th>
-                <th v-for="attribute in attributes" :key="attribute">
-                    {{ attribute }}
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <th v-for="attribute in attributes" :key="attribute"></th>
-            <tr v-for="tuple in selectedTuples" :key="tuple.hackit_tuple.metadata.tuple_id">
-                <td>
-                    <div style="display: flex; align-items: center">
-                        <span style="margin-right: 10px; font-size: 14px">{{ tuple.hackit_tuple.metadata.tuple_id }}</span>
-
-                        <button @click="toggleEditRow(tuple)" class="btn btn-secondary small-button px-1 py-1 mr-3"
-                            title="Edit" v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button @click="saveRow(tuple)" class="btn btn-primary small-button px-1 py-1 mr-3"
-                            v-if="isEditing(tuple)" title="Save">
-                            Save
-                        </button>
-                        <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')"
-                            class="fas fa-bug red-icon text-danger small-button px-1 py-1 mr-3" title="Debug"
-                            @click="debugTuple(tuple)"></i>
-                    </div>
-                </td>
-                <td v-for="(attribute, index) in attributes" :key="attribute" class="editable-cell px-1 py-1">
-                    <div v-if="isEditing(tuple)">
-                        <input v-model="editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]
-                            " class="form-control w-100 px-1 py-1" />
-                    </div>
-                    <div v-else>
-                        <div class="column-value">
-                            {{
-                                isEditing(tuple)
-                                ? editedData[tuple.hackit_tuple.metadata.tuple_id][attribute]
-                                : getTupleAttribute(tuple, attribute)
-                            }}
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </template>
 <script>
 import Tuple from "./Tuple.vue";
+import $ from 'jquery';
+import 'datatables.net';
+//import 'datatables.net-dt/css/jquery.dataTables.css';
+//import 'datatables.net-responsive';
+//import 'datatables.net-responsive-dt/css/responsive.dataTables.css';
+//import 'datatables.net-buttons';
+
+
 
 export default {
     name: "TupleDetails",
@@ -149,9 +153,27 @@ export default {
     },
     mounted() {
         this.selectTuples(); // Call selectTuples when the component is mounted
+        $(this.$refs.myTable).DataTable({
+
+        });
     },
 
     methods: {
+
+        initializeDataTables() {
+            this.$nextTick(() => {
+                // Destroy existing DataTables instance to reinitialize
+                if ($.fn.dataTable.isDataTable('#example')) {
+                    $(this.$refs.example).DataTable().destroy();
+                }
+
+                // Initialize DataTables
+                $(this.$refs.example).DataTable({
+                    // ... DataTables options for later changes
+                   
+                });
+            });
+        },
         async fetchTuples() {
             try {
                 // Fetch Tuple ID 1 from a different endpoint and keep it in its row
@@ -179,12 +201,16 @@ export default {
                 console.error("Error fetching tuples:", error);
             } finally {
                 this.isLoading = false;
+                this.initializeDataTables();
             }
         },
+
+
 
         selectTuples() {
             const count = parseInt(this.selectedTupleCount);
             this.selectedTuples = this.tuples.slice(0, count);
+            this.initializeDataTables();
         },
 
         shouldDisplayTuple(tuple) {
@@ -401,4 +427,7 @@ export default {
     },
 };
 </script>
-<style scoped></style>
+<style scoped>
+
+</style>
+
