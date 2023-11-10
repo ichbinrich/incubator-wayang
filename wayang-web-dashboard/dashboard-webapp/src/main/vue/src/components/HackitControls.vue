@@ -16,35 +16,29 @@
   specific language governing permissions and limitations
   under the License.
   -->
-<template>
-  <div class="hackit-controls" style="display: flex; align-items: center">
-    <button class="btn btn-secondary" style="margin-right: 10px; padding: 5px 20px" :class="{ 'btn-dark': isPaused }"
-      :disabled="!isPaused" @click="onPause">
-      Pause
-    </button>
-    <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px"
-      :class="{ 'btn-dark': isVirtualPaused }" :disabled="!isVirtualPaused" @click="onVirtualPause">
-      Virtual Pause
-    </button>
-    <button class="btn btn-secondary" style="margin-right: 10px; padding: 5px 20px" :class="{ 'btn-dark': isRunning }"
-      :disabled="!isRunning" @click="onPlay">
-      Resume
-    </button>
-    <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px"
-      :class="{ 'btn-dark': isNextDebugTupleActive }" :disabled="!isNextDebugTupleActive" @click="onNextDebugTuple">
-      Next Debug Tuple
-    </button>
-    <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px"
-      :class="{ 'btn-dark': isNextTupleActive }" :disabled="!isNextTupleActive" @click="onNextTuple">
-      Next Tuple
-    </button>
-
-    <button class="btn btn-secondary" style="margin-right: 10px; white-space: nowrap; padding: 5px 20px"
-      :class="{ 'btn-dark': isNextOperatorActive }" :disabled="!isNextOperatorActive" @click="nextOperatorClicked">
-      Next Operator
-    </button>
-  </div>
-</template>
+  <template>
+    <div class="d-flex justify-content-center align-items-center gap-3 mb-1" style="margin-top: -25px;">
+      <button class="btn btn-secondary" :class="{ 'btn-dark': isPaused }" :disabled="!isPaused" @click="onPause">
+        Pause
+      </button>
+      <button class="btn btn-secondary" :class="{ 'btn-dark': isVirtualPaused }" :disabled="!isVirtualPaused" @click="onVirtualPause">
+        Virtual Pause
+      </button>
+      <button class="btn btn-secondary" :class="{ 'btn-dark': isRunning }" :disabled="!isRunning" @click="onPlay">
+        Resume
+      </button>
+      <button class="btn btn-secondary" :class="{ 'btn-dark': isNextDebugTupleActive }" :disabled="!isNextDebugTupleActive" @click="onNextDebugTuple">
+        Next Debug Tuple
+      </button>
+      <button class="btn btn-secondary" :class="{ 'btn-dark': isNextTupleActive }" :disabled="!isNextTupleActive" @click="onNextTuple">
+        Next Tuple
+      </button>
+      <button class="btn btn-secondary" :class="{ 'btn-dark': isNextOperatorActive }" :disabled="!isNextOperatorActive" @click="nextOperatorClicked">
+        Next Operator
+      </button>
+    </div>
+  </template>
+  
 
 <script>
 import Codemirror from "codemirror-editor-vue3";

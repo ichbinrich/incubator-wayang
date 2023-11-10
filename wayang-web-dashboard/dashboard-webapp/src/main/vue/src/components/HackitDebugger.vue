@@ -16,59 +16,57 @@
   specific language governing permissions and limitations
   under the License.
   -->
-<template>
-  <div class="hackit-debugger">
-    <div v-if="isLoading">Loading...</div>
-    <div v-else>
-      <div class="filters mt-1 p-3">
-        <div class="row">
-          <!-- Align the label and select in a centered column -->
-          <div class="col-6 col-md-4 d-flex justify-content-center">
-            <div class="text-center">
-              <label for="task-select" class="form-label">Filter by Task ID</label>
-              <select id="task-select" class="form-select" v-model="selectedTask">
-                <option value="">All</option>
-                <option v-for="taskId in taskIds" :key="taskId" :value="taskId">
-                  {{ taskId }}
-                </option>
-              </select>
+  <template>
+    <div class="hackit-debugger">
+      <div v-if="isLoading">Loading...</div>
+      <div v-else>
+        <div class="filters mt-1 p-3">
+          <div class="row justify-content-center">
+            <!-- Adjust column sizes for a narrower layout -->
+            <div class="col-md-6 col-lg-4 d-flex justify-content-center">
+              <div class="text-center">
+                <label for="task-select" class="form-label">Filter by Task ID</label>
+                <select id="task-select" class="form-select" v-model="selectedTask">
+                  <option value="">All</option>
+                  <option v-for="taskId in taskIds" :key="taskId" :value="taskId">
+                    {{ taskId }}
+                  </option>
+                </select>
+              </div>
             </div>
-          </div>
-          <div class="col-6 col-md-8 d-flex justify-content-center">
-            <div class="text-center">
-              <label for="tag-select" class="form-label">Filter by Tag</label>
-              <select id="tag-select" class="form-select" v-model="selectedTag">
-                <option value="">All</option>
-                <option v-for="tag in uniqueTags" :key="tag" :value="tag">
-                  {{ tag }}
-                </option>
-              </select>
+            <div class="col-md-6 col-lg-4 d-flex justify-content-center">
+              <div class="text-center">
+                <label for="tag-select" class="form-label">Filter by Tag</label>
+                <select id="tag-select" class="form-select" v-model="selectedTag">
+                  <option value="">All</option>
+                  <option v-for="tag in uniqueTags" :key="tag" :value="tag">
+                    {{ tag }}
+                  </option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="table-responsive">
-        <table class="table table-borderless mb-0">
-        <!--table class="table table-borderless mb-0" ref="hackitTable"-->
-          <thead>
-            <tr>
-              <!-- Use text-center to align the text at the center -->
-              <th class="col-6 col-md-4 text-center">Tuple ID</th>
-              <th class="col-6 col-md-8 text-center">HackIT Tags</th>
-            </tr>
-          </thead>
-          <tbody v-if="filteredTuples.length > 0">
-            <!-- Make sure the Tuple component also centers its content -->
-            <Tuple v-for="(tuple, index) in filteredTuples" :key="index" :tuple="tuple" />
-          </tbody>
-        </table>
-      </div>
-      <div v-if="filteredTuples.length === 0" class="alert alert-warning mt-3" role="alert">
-        <h6 class="p-2">No tuples available in this task</h6>
+        <div class="table-responsive">
+          <table class="table table-borderless mb-0" ref="hackitTable">
+            <thead>
+              <tr>
+                <th class="text-center">Tuple ID</th>
+                <th class="text-center">HackIT Tags</th>
+              </tr>
+            </thead>
+            <tbody v-if="filteredTuples.length > 0">
+              <Tuple v-for="(tuple, index) in filteredTuples" :key="index" :tuple="tuple" />
+            </tbody>
+          </table>
+        </div>
+        <div v-if="filteredTuples.length === 0" class="alert alert-warning mt-3" role="alert">
+          <h6 class="p-2">No tuples available in this task</h6>
+        </div>
       </div>
     </div>
-  </div>
-</template>
+  </template>
+  
   
 
 <script>
@@ -165,21 +163,22 @@ export default {
   methods: {
 
     initializeDataTables() {
-      this.$nextTick(() => {
-        // Destroy existing DataTables instance to reinitialize
-        if ($.fn.dataTable.isDataTable(this.$refs.hackitTable)) {
-          $(this.$refs.hackitTable).DataTable().destroy();
-        }
+    this.$nextTick(() => {
+      // Destroy existing DataTables instance to reinitialize
+      if ($.fn.dataTable.isDataTable(this.$refs.hackitTable)) {
+        $(this.$refs.hackitTable).DataTable().destroy();
+      }
 
-        // Initialize DataTables
-        $(this.$refs.hackitTable).DataTable({
-          // DataTables options
-          responsive: true,
-          paging: true,
-          searching: false, // Disable DataTables search if using Vue filters
-        });
+      // Initialize DataTables with lengthChange set to false
+      $(this.$refs.hackitTable).DataTable({
+        responsive: true,
+        lengthChange: false, 
+        searching:false,
+        // This will hide the 'Show entries' feature
+        // ... other DataTable options ...
       });
-    },
+    });
+  },
     async fetchTuples() {
       try {
         const response = await fetch(
@@ -260,6 +259,10 @@ export default {
 };
 </script>
 <style scoped>
+.table-responsive {
+  max-width: 90%;  
+  margin: auto;   
+}
 .tuple-cell {
   text-align: center;
 }

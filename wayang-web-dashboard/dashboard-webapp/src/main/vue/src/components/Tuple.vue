@@ -19,7 +19,6 @@
 <!-- Inside the Tuple component template -->
 <template>
   <tr class="tuple">
-    <!-- Use text-center to align the text to the center -->
     <td class="text-center">{{ tuple.hackit_tuple.metadata.tuple_id }}</td>
     <td class="text-center">
       <div class="d-flex justify-content-center">
@@ -27,13 +26,14 @@
         <i v-if="tuple.hackit_tuple.metadata.tags.includes('MONITOR')" class="fas fa-exclamation-triangle" title="Monitor"></i>
         <i v-if="tuple.hackit_tuple.metadata.tags.includes('DEBUG')" class="fas fa-bug red-icon text-danger" title="Debug"></i>
         <i v-if="tuple.hackit_tuple.metadata.tags.includes('PAUSE')" class="fa-sharp fa-solid fa-circle-pause" title="Pause"></i>
+
+        <!-- Place the inspect modal here, if it needs to be in this column -->
+        <tuple-inspect-modal :tuple="tuple"></tuple-inspect-modal>
       </div>
-    </td>
-    <td>
-      <tuple-inspect-modal :tuple="tuple"></tuple-inspect-modal>
     </td>
   </tr>
 </template>
+
 <script>
 import TupleInspectModal from "@/components/TupleInspectModal.vue";
 
