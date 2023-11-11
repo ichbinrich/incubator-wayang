@@ -70,7 +70,7 @@
       <div class="col-12 col-md-10 col-lg-8 mx-auto offset-md-1">
         <div class="card mb-4">
           <div class="card-header">
-            <h6>Tuples in Each Node Operator</h6>
+            <h6>Debug Tuples & Tags</h6>
           </div>
           <div class="card-body">
             <HackitDebugger @update:selectedTaskId="selectedTaskId = $event" :hackitAction="hackitAction" :jobId="jobId"
