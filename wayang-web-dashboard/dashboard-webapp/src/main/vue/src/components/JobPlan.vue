@@ -198,7 +198,7 @@ export default {
   },
 
   mounted() {
-    const colors = ["green", "blue", "blue", "green", "green"];
+    const colors = ["green", "blue", "blue", "blue", "green"];
 
     const elements = {
       nodes: this.graph.nodes.map((node, index) => {
